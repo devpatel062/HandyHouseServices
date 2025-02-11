@@ -1,5 +1,6 @@
 {
   "name": "handyhouse-services",
+  "proxy": "https://handy-house-services-backend.vercel.app",
   "private": true,
   "version": "0.0.0",
   "type": "module",

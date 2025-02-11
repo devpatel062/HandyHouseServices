@@ -37,7 +37,7 @@ export const SimpleCard = () => {
         try {
             const response = await axios.post("https://handy-house-services-backend.vercel.app/api/signin", formData,  { withCredentials: true });
             alert(response.data.message);
-            navigate('../homePage')
+            navigate('/homePage')
         } catch (error) {
             if (error.response) {
                 // If the server responded with an error status
