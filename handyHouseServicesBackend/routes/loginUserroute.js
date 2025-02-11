@@ -6,8 +6,14 @@ const router = express.Router();
 const SECRET_KEY = process.env.SECRET_KEY;
 
 // User Login Route
+
+router.get("/test", async (req, res) => {
+  return res.status(200).json({message: "working"});
+})
+
 router.post("/signin", async (req, res) => {
   try {
+    
     const { email, password } = req.body;
 
     // Check if the user exists
