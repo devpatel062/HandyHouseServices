@@ -35,7 +35,7 @@ export const SignupCard = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:5000/api/signup", formData,{ withCredentials: true });
+      const response = await axios.post("https://handy-house-services-backend.vercel.app/api/signup", formData,{ withCredentials: true });
       alert(response.data.message);
       navigate('/signin')
     } catch (error) {

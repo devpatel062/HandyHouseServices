@@ -29,7 +29,7 @@ function Modal({onClose}) {
         e.preventDefault()
         setLoading(true);
         try{
-            const response = await axios.post("http://localhost:5000/api/repairServices",formData)
+            const response = await axios.post("https://handy-house-services-backend.vercel.app/api/repairServices",formData)
             alert(response.data.message)
         }catch (error) {
             console.error(error)

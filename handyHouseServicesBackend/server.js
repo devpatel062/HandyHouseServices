@@ -6,8 +6,8 @@ require("dotenv").config();
 // const bodyParser = require("express.json");
 const app = express();
 app.use(cors({
-  origin: 'http://localhost:5173', // Frontend URL
-  credentials: true 
+  origin: 'https://handy-house-services-backend.vercel.app', // Frontend URL
+  credentials: true
 }));
 app.use(express.json());
 app.use(cookieParser());
