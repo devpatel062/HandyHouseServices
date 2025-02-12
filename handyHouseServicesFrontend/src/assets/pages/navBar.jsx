@@ -60,7 +60,7 @@ export const Navbar = () => {
       .catch(() => {
         setUser(null); // If error, set user as null
       });
-  },[]);
+  },[]);  
 
   return (
     <Box>
