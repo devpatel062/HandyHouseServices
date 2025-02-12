@@ -50,6 +50,7 @@ export const Navbar = () => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
+    console.log("hello")
     axios
       .get("https://handy-house-services-backend.vercel.app/api/user", { withCredentials: true }) // Ensure credentials (cookies) are sent
       .then((response) => {
