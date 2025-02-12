@@ -60,7 +60,7 @@ export const Navbar = () => {
       .catch(() => {
         setUser(null); // If error, set user as null
       });
-  },[user]);  
+  },[]);  
 
   return (
     <Box>
@@ -108,7 +108,7 @@ export const Navbar = () => {
               </Text>
               <Button
                 onClick={() => {
-                  axios.post("http://localhost:5000/api/logout", {}, { withCredentials: true }).then(() => {
+                  axios.post("https://handy-house-services-backend.vercel.app/api/logout", {}, { withCredentials: true }).then(() => {
                     setUser(null); // Clear user on logout
                   });
                 }}
