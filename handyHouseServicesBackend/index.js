@@ -12,8 +12,8 @@ app.use(cors({
 app.use(express.json());
 app.use(cookieParser());
 
-const userRoutes = require("./routes/loginUserroute");
-app.use("/api/users", userRoutes);
+// const userRoutes = require("./routes/loginUserroute");
+// app.use("/api/users", userRoutes);
 
 const signupuserRoute = require("./routes/signupuserroute");
 app.use("/api", signupuserRoute);
