@@ -3,6 +3,13 @@ const router = express.Router();
 const User = require("../models/signupUser");
 const authenticateUser = require("./authenticateroute")
 
+
+router.post("/logout", (req, res) => {
+  res.clearCookie("token", { httpOnly: true, sameSite: "None", secure: true });
+  res.json({ message: "Logged out" });
+});
+
+
 router.get("/user", authenticateUser, async (req, res) => {
     console.log("ok")
     try {

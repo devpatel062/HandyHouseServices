@@ -36,7 +36,7 @@ router.post("/signin", async (req, res) => {
       .cookie("token", token, {
         httpOnly: true, // Prevents JavaScript access
         secure: process.env.NODE_ENV === "production", // Use secure cookies in production (HTTPS)
-        sameSite: "None", // Prevent CSRF attacks
+        sameSite: "None",
         maxAge: 60 * 60 * 1000, // 1 hour
       })
       .json({ message: "Login successful" });
