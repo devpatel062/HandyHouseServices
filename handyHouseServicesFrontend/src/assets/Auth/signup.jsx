@@ -13,6 +13,7 @@ import {
   Text,
   useColorModeValue,
   Link,
+  Toast,
 } from '@chakra-ui/react'
 import { useState } from 'react'
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
@@ -36,7 +37,13 @@ export const SignupCard = () => {
     e.preventDefault();
     try {
       const response = await axios.post("https://handy-house-services-backend.vercel.app/api/signup", formData,{ withCredentials: true });
-      alert(response.data.message);
+      // alert(response.data.message);
+      Toast({
+        title: response.data.message,
+        status: "success",
+        duration: 9000,
+        isClosable: true,
+      })
       navigate('/signin')
     } catch (error) {
       console.error("Registration Error:", error);

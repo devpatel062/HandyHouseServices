@@ -1,24 +1,3 @@
-/* eslint-disable react/prop-types */
-// import React from 'react'
-// import { Link } from 'react-router-dom'
-
-// export const Navbar = () => {
-//   return (
-//     <nav className="fixed top-0 left-0 right-0 z-10">
-//       <ul className="flex justify-center space-x-4 bg-blue-400 text-white text-2xl font-sans">
-//         <li className="hover:font-bold m-3">
-//           <Link to="/">Home</Link>
-//         </li>
-//         <li className="hover:font-bold m-3">
-//           <Link to="/services">Services</Link>
-//         </li>
-//         <li className="hover:font-bold m-3">
-//           <Link to="/aboutUs">About Us</Link>
-//         </li>
-//       </ul>
-//     </nav>
-//   )
-// }
 import {
   Box,
   Flex,
@@ -104,7 +83,8 @@ export const Navbar = () => {
           {user ? (
             <>
               <Text fontSize={"md"} fontWeight={600} color={"gray.700"}>
-                {user.username} ({user.email})
+                {user.fullname} 
+                {/* ({user.email}) */}
               </Text>
               <Button
                 onClick={() => {
@@ -196,7 +176,10 @@ const DesktopNav = () => {
   );
 };
 
+import PropTypes from 'prop-types';
+
 const DesktopSubNav = ({ label, href, subLabel }) => {
+  
   return (
     <Link
       href={href}
@@ -230,6 +213,12 @@ const DesktopSubNav = ({ label, href, subLabel }) => {
   );
 };
 
+DesktopSubNav.propTypes = {
+  label: PropTypes.string.isRequired,
+  href: PropTypes.string,
+  subLabel: PropTypes.string,
+};
+
 const MobileNav = () => {
   return (
     <Stack
@@ -242,6 +231,7 @@ const MobileNav = () => {
     </Stack>
   );
 };
+
 
 const MobileNavItem = ({ label, children, href }) => {
   const { isOpen, onToggle } = useDisclosure();
@@ -293,12 +283,17 @@ const MobileNavItem = ({ label, children, href }) => {
   );
 };
 
-// const NavItem = {
-//   label: String,
-//   subLabel: String,
-//   children: Array,
-//   href: String,
-// }
+MobileNavItem.propTypes = {
+  label: PropTypes.string.isRequired,
+  children: PropTypes.arrayOf(
+    PropTypes.shape({
+      label: PropTypes.string.isRequired,
+      href: PropTypes.string,
+    })
+  ),
+  href: PropTypes.string,
+};
+
 
 const NAV_ITEMS = [
   {

@@ -12,6 +12,7 @@ import {
     Heading,
     Text,
     useColorModeValue,
+    Toast
 } from '@chakra-ui/react'
 import axios from "axios";
 import { useState } from 'react'
@@ -36,7 +37,13 @@ export const SimpleCard = () => {
         e.preventDefault();
         try {
             const response = await axios.post("https://handy-house-services-backend.vercel.app/api/signin", formData,  { withCredentials: true });
-            alert(response.data.message);
+            // alert(response.data.message);
+            Toast({
+                title: response.data.message,
+                status: "success",
+                duration: 9000,
+                isClosable: true,
+            })
             navigate('/homePage')
         } catch (error) {
             if (error.response) {
