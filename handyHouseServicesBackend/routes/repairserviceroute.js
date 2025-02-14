@@ -3,7 +3,7 @@ const bcrypt = require("bcryptjs"); // For password hashing
 const jwt = require("jsonwebtoken"); // For generating authentication tokens
 const Booking = require("../models/repairServices");
 const router = express.Router();
-const sendEmail = require("./sendEmail")
+const sendEmail = require("./sendEmail").default
 
 router.post("/repairServices", async (req,res) => {
     console.log("ok ok")

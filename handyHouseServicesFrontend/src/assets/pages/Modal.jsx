@@ -29,16 +29,16 @@ function Modal({onClose}) {
         e.preventDefault()
         setLoading(true);
         try{
-            const response = await axios.post("https://handy-house-services-backend.vercel.app/api/repairServices",formData)
+            const response = await axios.post("https://handy-house-services-backend.vercel.app/api/repairServices",formData, { timeout: 7000 })
             // alert(response.data.message)
             toast({
                 title: response.data.message,
                 status: "Booking Confirmation email sent to your email Id",
                 duration: 6000,
                 isClosable: true,
-            })
+            });
         }catch (error) {
-            console.error(error)
+            console.error(error.response || error.message)
             alert("service booking failed, please book again")
         }
         setLoading(false);

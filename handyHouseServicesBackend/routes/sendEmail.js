@@ -1,11 +1,14 @@
-const nodemailer = require("nodemailer");
+import { createTransport } from "nodemailer";
 
 const sendConfirmationEmail = (email, booking) => {
+    if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
+        throw new Error("Email user or password not set in environment variables");
+    }
+
     console.log("Email User:", process.env.EMAIL_USER);
     console.log("Email Pass:", process.env.EMAIL_PASS ? "Exists" : "Not Set");
 
-    const transporter = nodemailer.createTransport({
-        // service: "gmail",
+    const transporter = createTransport({
         host: "smtp.gmail.com",
         port: 587,
         secure: false,
@@ -15,7 +18,7 @@ const sendConfirmationEmail = (email, booking) => {
         }
     });
 
-    transporter.verify((err, success) => {
+    transporter.verify((err) => {
         if (err) {
             console.error("SMTP Verification Failed:", err);
             return;
@@ -36,4 +39,4 @@ const sendConfirmationEmail = (email, booking) => {
     });
 };
 
-module.exports = sendConfirmationEmail
+export default sendConfirmationEmail
