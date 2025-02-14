@@ -15,6 +15,14 @@ const sendConfirmationEmail = (email, booking) => {
         }
     });
 
+    transporter.verify((err, success) => {
+        if (err) {
+            console.error("SMTP Verification Failed:", err);
+            return;
+        }
+        console.log("SMTP Server Ready 🚀");
+    });
+
     const mailOptions = {
         from: process.env.EMAIL_USER,
         to: email,
