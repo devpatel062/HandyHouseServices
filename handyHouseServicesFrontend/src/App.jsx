@@ -17,6 +17,7 @@ function App() {
   return (
     <>
       <Navbar className="fixed top-0 left-0 w-full z-10"/>
+      <div className="pt-16"> {/* Adjust the padding-top value according to the navbar height */}
         <Routes>
           <Route path="/" element={<Navigate to="/signin" />} />
           <Route path="/homePage" element={<HomePage />} />
@@ -26,6 +27,7 @@ function App() {
           <Route path="/aboutUs" element={<AboutUs />} />
           <Route path="CleaningServices" element={<CleaningServices />} />
         </Routes>
+      </div>
     </>
   )
 }

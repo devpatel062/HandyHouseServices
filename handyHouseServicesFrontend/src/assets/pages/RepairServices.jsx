@@ -13,7 +13,7 @@ export const RepairServices = () => {
         <Card maxW='sm'>
           <CardBody>
             <Image
-              src='./src/assets/Images/plumber.jpg'
+              src={('../Images/plumber.jpg')}
               alt='Green double couch with wooden legs'
               borderRadius='lg'
             />
@@ -46,7 +46,7 @@ export const RepairServices = () => {
         <Card maxW='sm'>
           <CardBody>
             <Image
-              src='./src/assets/Images/electrician.jpg'
+              src={('../Images/electrician.jpg')}
               alt='Green double couch with wooden legs'
               borderRadius='lg'
             />
@@ -77,7 +77,7 @@ export const RepairServices = () => {
         <Card maxW='sm'>
           <CardBody>
             <Image
-              src='./src/assets/Images/carpenter.jpg'
+              src={('../Images/carpenter.jpg')}
               alt='Green double couch with wooden legs'
               borderRadius='lg'
             />
@@ -107,7 +107,7 @@ export const RepairServices = () => {
         <Card maxW='sm'>
           <CardBody>
             <Image
-              src='./src/assets/Images/babysitter.png'
+              src={('../Images/babysitter.png')}
               alt='Green double couch with wooden legs'
               borderRadius='lg'
             />
@@ -137,7 +137,7 @@ export const RepairServices = () => {
         <Card maxW='sm'>
           <CardBody>
             <Image
-              src='./src/assets/Images/gardener.webp'
+              src={('../Images/gardener.webp')}
               alt='Green double couch with wooden legs'
               borderRadius='lg'
             />
@@ -167,7 +167,7 @@ export const RepairServices = () => {
         <Card maxW='sm'>
           <CardBody>
             <Image
-              src='./src/assets/Images/petsitter.jpg'
+              src={('../Images/petsitter.jpg')}
               alt='Green double couch with wooden legs'
               borderRadius='lg'
             />
