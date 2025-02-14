@@ -1,6 +1,12 @@
 // import React from 'react'
 import { Card, Image, Stack, Text, Heading, Divider, ButtonGroup, Button, SimpleGrid, CardBody, CardFooter } from '@chakra-ui/react'
 import { useState } from 'react';
+import plumber from '../assets/Images/plumber.jpg';
+import electrician from '../assets/Images/electrician.jpg';
+import carpenter from '../assets/Images/carpenter.jpg';
+import babysitter from '../assets/Images/babysitter.png';
+import gardener from '../assets/Images/gardener.webp';
+import petsitter from '../assets/Images/petsitter.jpg';
 import Modal from './Modal'
 import Footer from './Footer'
 
@@ -8,12 +14,12 @@ export const RepairServices = () => {
   
   const [showModal, setshowModal] = useState(false);
   return (
-    <div className=" relative top-10">
+    <div className=" relative top-10 z-10">
       <SimpleGrid className="md:flex column" spacing={4} templateColumns='repeat(auto-fill, minmax(400px, 1fr))'>
         <Card maxW='sm'>
           <CardBody>
             <Image
-              src="src/assets/Images/plumber.jpg" 
+              src={plumber}
               alt='Green double couch with wooden legs'
               borderRadius='lg'
             />
@@ -46,7 +52,7 @@ export const RepairServices = () => {
         <Card maxW='sm'>
           <CardBody>
             <Image
-              src={('../Images/electrician.jpg')}
+              src={electrician}
               alt='Green double couch with wooden legs'
               borderRadius='lg'
             />
@@ -77,7 +83,7 @@ export const RepairServices = () => {
         <Card maxW='sm'>
           <CardBody>
             <Image
-              src={('../Images/carpenter.jpg')}
+              src={carpenter}
               alt='Green double couch with wooden legs'
               borderRadius='lg'
             />
@@ -107,7 +113,7 @@ export const RepairServices = () => {
         <Card maxW='sm'>
           <CardBody>
             <Image
-              src={('../Images/babysitter.png')}
+              src={babysitter}
               alt='Green double couch with wooden legs'
               borderRadius='lg'
             />
@@ -137,7 +143,7 @@ export const RepairServices = () => {
         <Card maxW='sm'>
           <CardBody>
             <Image
-              src={('../Images/gardener.webp')}
+              src={gardener}
               alt='Green double couch with wooden legs'
               borderRadius='lg'
             />
@@ -167,7 +173,7 @@ export const RepairServices = () => {
         <Card maxW='sm'>
           <CardBody>
             <Image
-              src={('../Images/petsitter.jpg')}
+              src={petsitter}
               alt='Green double couch with wooden legs'
               borderRadius='lg'
             />
