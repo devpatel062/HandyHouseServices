@@ -1,311 +1,466 @@
-import {
-  Box,
-  Flex,
-  Text,
-  IconButton,
-  Button,
-  Stack,
-  Collapse,
-  Icon,
-  Link,
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-  useColorModeValue,
-  useBreakpointValue,
-  useDisclosure,
-} from '@chakra-ui/react'
-import {
-  HamburgerIcon,
-  CloseIcon,
-  ChevronDownIcon,
-  ChevronRightIcon,
-} from '@chakra-ui/icons'
-import { useEffect, useState } from "react";
-import axios from "axios";
+// import {
+//   Box,
+//   Flex,
+//   Text,
+//   IconButton,
+//   Button,
+//   Stack,
+//   Collapse,
+//   Icon,
+//   Link,
+//   Popover,
+//   PopoverTrigger,
+//   PopoverContent,
+//   useColorModeValue,
+//   useBreakpointValue,
+//   useDisclosure,
+// } from '@chakra-ui/react'
+// import {
+//   HamburgerIcon,
+//   CloseIcon,
+//   ChevronDownIcon,
+//   ChevronRightIcon,
+// } from '@chakra-ui/icons'
+// import { useEffect, useState } from "react";
+// import axios from "axios";
 
-export const Navbar = () => {
-  const { isOpen, onToggle } = useDisclosure();
-  const [user, setUser] = useState(null);
+// export const Navbar = () => {
+//   const { isOpen, onToggle } = useDisclosure();
+//   const [user, setUser] = useState(null);
 
-  useEffect(() => {
-    console.log("hello")
-    axios
-      .get("https://handy-house-services-backend.vercel.app/api/user", { withCredentials: true }) // Ensure credentials (cookies) are sent
-      .then((response) => {
-        console.log("response.data")
-        setUser(response.data); // Store user data
-      })
-      .catch(() => {
-        setUser(null); // If error, set user as null
-      });
-  },[]);  
+//   useEffect(() => {
+//     console.log("hello")
+//     axios
+//       .get("https://handy-house-services-backend.vercel.app/api/user", { withCredentials: true }) // Ensure credentials (cookies) are sent
+//       .then((response) => {
+//         console.log("response.data")
+//         setUser(response.data); // Store user data
+//       })
+//       .catch(() => {
+//         setUser(null); // If error, set user as null
+//       });
+//   },[]);  
 
-  return (
-    <Box>
-      <Flex
-        bg={useColorModeValue('white', 'gray.800')}
-        color={useColorModeValue('gray.600', 'white')}
-        minH={'60px'}
-        py={{ base: 2 }}
-        px={{ base: 4 }}
-        borderBottom={1}
-        borderStyle={'solid'}
-        borderColor={useColorModeValue('gray.200', 'gray.900')}
-        align={'center'}>
-        <Flex
-          flex={{ base: 1, md: 'auto' }}
-          ml={{ base: -2 }}
-          display={{ base: 'flex', md: 'none' }}>
-          <IconButton
-            onClick={onToggle}
-            icon={
-              isOpen ? <CloseIcon w={3} h={3} /> : <HamburgerIcon w={5} h={5} />
-            }
-            variant={'ghost'}
-            aria-label={'Toggle Navigation'}
-          />
-        </Flex>
-        <Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'start' }}>
-          <Text
-            textAlign={useBreakpointValue({ base: 'center', md: 'left' })}
-            fontFamily={'heading'}
-            color={useColorModeValue('gray.800', 'white')}>
-            Logo
-          </Text>
+//   return (
+//     <Box>
+//       <Flex
+//         bg={useColorModeValue('white', 'gray.800')}
+//         color={useColorModeValue('gray.600', 'white')}
+//         minH={'60px'}
+//         py={{ base: 2 }}
+//         px={{ base: 4 }}
+//         borderBottom={1}
+//         borderStyle={'solid'}
+//         borderColor={useColorModeValue('gray.200', 'gray.900')}
+//         align={'center'}>
+//         <Flex
+//           flex={{ base: 1, md: 'auto' }}
+//           ml={{ base: -2 }}
+//           display={{ base: 'flex', md: 'none' }}>
+//           <IconButton
+//             onClick={onToggle}
+//             icon={
+//               isOpen ? <CloseIcon w={3} h={3} /> : <HamburgerIcon w={5} h={5} />
+//             }
+//             variant={'ghost'}
+//             aria-label={'Toggle Navigation'}
+//           />
+//         </Flex>
+//         <Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'start' }}>
+//           <Text
+//             textAlign={useBreakpointValue({ base: 'center', md: 'left' })}
+//             fontFamily={'heading'}
+//             color={useColorModeValue('gray.800', 'white')}>
+//             Logo
+//           </Text>
 
-          <Flex display={{ base: 'none', md: 'flex' }} ml={10}>
-            <DesktopNav />
-          </Flex>
-        </Flex>
+//           <Flex display={{ base: 'none', md: 'flex' }} ml={10}>
+//             <DesktopNav />
+//           </Flex>
+//         </Flex>
 
-        <Stack flex={{ base: 1, md: 0 }} justify={"flex-end"} direction={"row"} spacing={6}>
-          {user ? (
-            <>
-              <Text fontSize={"md"} fontWeight={600} color={"gray.700"}>
-                {user.fullname} 
-                {/* ({user.email}) */}
-              </Text>
-              <Button
-                onClick={() => {
-                  axios.post("https://handy-house-services-backend.vercel.app/api/logout", {}, { withCredentials: true }).then(() => {
-                    setUser(null); // Clear user on logout
-                  });
-                }}
-                fontSize={"sm"}
-                fontWeight={600}
-                color={"white"}
-                bg={"red.400"}
-                _hover={{ bg: "red.300" }}
-              >
-                Logout
-              </Button>
-            </>
-          ) : (
-            <>
-              <Button as={"a"} fontSize={"sm"} fontWeight={400} variant={"link"} href="/signin">
-                Sign In
-              </Button>
-              <Button
-                as={"a"}
-                fontSize={"sm"}
-                fontWeight={600}
-                color={"white"}
-                bg={"blue.400"}
-                href="/signup"
-                _hover={{ bg: "blue.300" }}
-              >
-                Sign Up
-              </Button>
-            </>
-          )}
-        </Stack>
-      </Flex>
+//         <Stack flex={{ base: 1, md: 0 }} justify={"flex-end"} direction={"row"} spacing={6}>
+//           {user ? (
+//             <>
+//               <Text fontSize={"md"} fontWeight={600} color={"gray.700"}>
+//                 {user.fullname} 
+//                 {/* ({user.email}) */}
+//               </Text>
+//               <Button
+//                 onClick={() => {
+//                   axios.post("https://handy-house-services-backend.vercel.app/api/logout", {}, { withCredentials: true }).then(() => {
+//                     setUser(null); // Clear user on logout
+//                   });
+//                 }}
+//                 fontSize={"sm"}
+//                 fontWeight={600}
+//                 color={"white"}
+//                 bg={"red.400"}
+//                 _hover={{ bg: "red.300" }}
+//               >
+//                 Logout
+//               </Button>
+//             </>
+//           ) : (
+//             <>
+//               <Button as={"a"} fontSize={"sm"} fontWeight={400} variant={"link"} href="/signin">
+//                 Sign In
+//               </Button>
+//               <Button
+//                 as={"a"}
+//                 fontSize={"sm"}
+//                 fontWeight={600}
+//                 color={"white"}
+//                 bg={"blue.400"}
+//                 href="/signup"
+//                 _hover={{ bg: "blue.300" }}
+//               >
+//                 Sign Up
+//               </Button>
+//             </>
+//           )}
+//         </Stack>
+//       </Flex>
 
-      <Collapse in={isOpen} animateOpacity>
-        <MobileNav />
-      </Collapse>
-    </Box>
-  );
-}
+//       <Collapse in={isOpen} animateOpacity>
+//         <MobileNav />
+//       </Collapse>
+//     </Box>
+//   );
+// }
 
-const DesktopNav = () => {
-  const linkColor = useColorModeValue('gray.600', 'gray.200');
-  const linkHoverColor = useColorModeValue('gray.800', 'white');
-  const popoverContentBgColor = useColorModeValue('white', 'gray.800');
+// const DesktopNav = () => {
+//   const linkColor = useColorModeValue('gray.600', 'gray.200');
+//   const linkHoverColor = useColorModeValue('gray.800', 'white');
+//   const popoverContentBgColor = useColorModeValue('white', 'gray.800');
 
-  return (
-    <Stack direction={'row'} spacing={4}>
-      {NAV_ITEMS.map((navItem) => (
-        <Box key={navItem.label}>
-          <Popover trigger={'hover'} placement={'bottom-start'}>
-            <PopoverTrigger>
-              <Link
-                p={2}
-                to={navItem.href ?? '#'}
-                fontSize={'sm'}
-                fontWeight={500}
-                color={linkColor}
-                _hover={{
-                  textDecoration: 'none',
-                  color: linkHoverColor,
-                }}>
-                {navItem.label}
-              </Link>
-            </PopoverTrigger>
+//   return (
+//     <Stack direction={'row'} spacing={4}>
+//       {NAV_ITEMS.map((navItem) => (
+//         <Box key={navItem.label}>
+//           <Popover trigger={'hover'} placement={'bottom-start'}>
+//             <PopoverTrigger>
+//               <Link
+//                 p={2}
+//                 to={navItem.href ?? '#'}
+//                 fontSize={'sm'}
+//                 fontWeight={500}
+//                 color={linkColor}
+//                 _hover={{
+//                   textDecoration: 'none',
+//                   color: linkHoverColor,
+//                 }}>
+//                 {navItem.label}
+//               </Link>
+//             </PopoverTrigger>
 
-            {navItem.children && (
-              <PopoverContent
-                border={0}
-                boxShadow={'xl'}
-                bg={popoverContentBgColor}
-                p={4}
-                rounded={'xl'}
-                minW={'sm'}>
-                <Stack>
-                  {navItem.children.map((child) => (
-                    <DesktopSubNav key={child.label} {...child} />
-                  ))}
-                </Stack>
-              </PopoverContent>
-            )}
-          </Popover>
-        </Box>
-      ))}
-    </Stack>
-  );
-};
+//             {navItem.children && (
+//               <PopoverContent
+//                 border={0}
+//                 boxShadow={'xl'}
+//                 bg={popoverContentBgColor}
+//                 p={4}
+//                 rounded={'xl'}
+//                 minW={'sm'}>
+//                 <Stack>
+//                   {navItem.children.map((child) => (
+//                     <DesktopSubNav key={child.label} {...child} />
+//                   ))}
+//                 </Stack>
+//               </PopoverContent>
+//             )}
+//           </Popover>
+//         </Box>
+//       ))}
+//     </Stack>
+//   );
+// };
 
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 
-const DesktopSubNav = ({ label, href, subLabel }) => {
+// const DesktopSubNav = ({ label, href, subLabel }) => {
   
+//   return (
+//     <Link
+//       href={href}
+//       role={'group'}
+//       display={'block'}
+//       p={2}
+//       rounded={'md'}
+//       _hover={{ bg: useColorModeValue('blue.50', 'gray.900') }}>
+//       <Stack direction={'row'} align={'center'}>
+//         <Box>
+//           <Text
+//             transition={'all .3s ease'}
+//             _groupHover={{ color: 'blue.400' }}
+//             fontWeight={500}>
+//             {label}
+//           </Text>
+//           <Text fontSize={'sm'}>{subLabel}</Text>
+//         </Box>
+//         <Flex
+//           transition={'all .3s ease'}
+//           transform={'translateX(-10px)'}
+//           opacity={0}
+//           _groupHover={{ opacity: '100%', transform: 'translateX(0)' }}
+//           justify={'flex-end'}
+//           align={'center'}
+//           flex={1}>
+//           <Icon color={'blue.400'} w={5} h={5} as={ChevronRightIcon} />
+//         </Flex>
+//       </Stack>
+//     </Link>
+//   );
+// };
+
+// DesktopSubNav.propTypes = {
+//   label: PropTypes.string.isRequired,
+//   href: PropTypes.string,
+//   subLabel: PropTypes.string,
+// };
+
+// const MobileNav = () => {
+//   return (
+//     <Stack
+//       bg={useColorModeValue('white', 'gray.800')}
+//       p={4}
+//       display={{ md: 'none' }}>
+//       {NAV_ITEMS.map((navItem) => (
+//         <MobileNavItem key={navItem.label} {...navItem} />
+//       ))}
+//     </Stack>
+//   );
+// };
+
+
+// const MobileNavItem = ({ label, children, href }) => {
+//   const { isOpen, onToggle } = useDisclosure();
+
+//   return (
+//     <Stack spacing={4} onClick={children && onToggle}>
+//       <Flex
+//         py={2}
+//         as={Link}
+//         href={href ?? '#'}
+//         justify={'space-between'}
+//         align={'center'}
+//         _hover={{
+//           textDecoration: 'none',
+//         }}>
+//         <Text
+//           fontWeight={600}
+//           color={useColorModeValue('gray.600', 'gray.200')}>
+//           {label}
+//         </Text>
+//         {children && (
+//           <Icon
+//             as={ChevronDownIcon}
+//             transition={'all .25s ease-in-out'}
+//             transform={isOpen ? 'rotate(180deg)' : ''}
+//             w={6}
+//             h={6}
+//           />
+//         )}
+//       </Flex>
+
+//       <Collapse in={isOpen} animateOpacity style={{ marginTop: '0!important' }}>
+//         <Stack
+//           mt={2}
+//           pl={4}
+//           borderLeft={1}
+//           borderStyle={'solid'}
+//           borderColor={useColorModeValue('gray.200', 'gray.700')}
+//           align={'start'}>
+//           {children &&
+//             children.map((child) => (
+//               <Link key={child.label} py={2} href={child.href}>
+//                 {child.label}
+//               </Link>
+//             ))}
+//         </Stack>
+//       </Collapse>
+//     </Stack>
+//   );
+// };
+
+// MobileNavItem.propTypes = {
+//   label: PropTypes.string.isRequired,
+//   children: PropTypes.arrayOf(
+//     PropTypes.shape({
+//       label: PropTypes.string.isRequired,
+//       href: PropTypes.string,
+//     })
+//   ),
+//   href: PropTypes.string,
+// };
+
+
+// const NAV_ITEMS = [
+//   {
+//     label: 'HOME',
+//     href: '/',
+//   },
+//   {
+//     label: 'SERVICES',
+//     href: '/RepairServices',
+//   },
+//   {
+//     label: 'ABOUT US',
+//     href: '/aboutUs',
+//   },
+// ];
+
+
+import { useState } from 'react'
+import {
+  useColorMode,
+  Switch,
+  Flex,
+  Button,
+  IconButton
+} from '@chakra-ui/react'
+import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons'
+import NextLink from 'next/link'
+
+
+export const DarkModeSwitch = () => {
+  const { colorMode, toggleColorMode } = useColorMode()
+  const isDark = colorMode === 'dark'
+  const [display, changeDisplay] = useState('none')
   return (
-    <Link
-      href={href}
-      role={'group'}
-      display={'block'}
-      p={2}
-      rounded={'md'}
-      _hover={{ bg: useColorModeValue('blue.50', 'gray.900') }}>
-      <Stack direction={'row'} align={'center'}>
-        <Box>
-          <Text
-            transition={'all .3s ease'}
-            _groupHover={{ color: 'blue.400' }}
-            fontWeight={500}>
-            {label}
-          </Text>
-          <Text fontSize={'sm'}>{subLabel}</Text>
-        </Box>
-        <Flex
-          transition={'all .3s ease'}
-          transform={'translateX(-10px)'}
-          opacity={0}
-          _groupHover={{ opacity: '100%', transform: 'translateX(0)' }}
-          justify={'flex-end'}
-          align={'center'}
-          flex={1}>
-          <Icon color={'blue.400'} w={5} h={5} as={ChevronRightIcon} />
-        </Flex>
-      </Stack>
-    </Link>
-  );
-};
-
-DesktopSubNav.propTypes = {
-  label: PropTypes.string.isRequired,
-  href: PropTypes.string,
-  subLabel: PropTypes.string,
-};
-
-const MobileNav = () => {
-  return (
-    <Stack
-      bg={useColorModeValue('white', 'gray.800')}
-      p={4}
-      display={{ md: 'none' }}>
-      {NAV_ITEMS.map((navItem) => (
-        <MobileNavItem key={navItem.label} {...navItem} />
-      ))}
-    </Stack>
-  );
-};
-
-
-const MobileNavItem = ({ label, children, href }) => {
-  const { isOpen, onToggle } = useDisclosure();
-
-  return (
-    <Stack spacing={4} onClick={children && onToggle}>
+    <Flex>
       <Flex
-        py={2}
-        as={Link}
-        href={href ?? '#'}
-        justify={'space-between'}
-        align={'center'}
-        _hover={{
-          textDecoration: 'none',
-        }}>
-        <Text
-          fontWeight={600}
-          color={useColorModeValue('gray.600', 'gray.200')}>
-          {label}
-        </Text>
-        {children && (
-          <Icon
-            as={ChevronDownIcon}
-            transition={'all .25s ease-in-out'}
-            transform={isOpen ? 'rotate(180deg)' : ''}
-            w={6}
-            h={6}
-          />
-        )}
+        position="fixed"
+        top="1rem"
+        right="1rem"
+        align="center"
+      >
+        {/* Desktop */}
+        <Flex
+          display={['none', 'none', 'flex','flex']}
+        >
+          <NextLink href="/" passHref>
+            <Button
+              as="a"
+              variant="ghost"
+              aria-label="Home"
+              my={5}
+              w="100%"
+            >
+              Home
+                    </Button>
+          </NextLink>
+
+          <NextLink to="/RepairServices" passHref>
+            <Button
+              as="a"
+              variant="ghost"
+              aria-label="About"
+              my={5}
+              w="100%"
+            >
+              Repair Services
+                    </Button>
+          </NextLink>
+
+          <NextLink to="/aboutUs" passHref>
+            <Button
+              as="a"
+              variant="ghost"
+              aria-label="Contact"
+              my={5}
+              w="100%"
+            >
+              About Us
+                    </Button>
+          </NextLink>
+        </Flex>
+
+        {/* Mobile */}
+        <IconButton
+          aria-label="Open Menu"
+          size="lg"
+          mr={2}
+          icon={
+            <HamburgerIcon />
+          }
+          onClick={() => changeDisplay('flex')}
+          display={['flex', 'flex', 'none', 'none']}
+        />
+        <Switch
+          color="green"
+          isChecked={isDark}
+          onChange={toggleColorMode}
+        />
       </Flex>
 
-      <Collapse in={isOpen} animateOpacity style={{ marginTop: '0!important' }}>
-        <Stack
-          mt={2}
-          pl={4}
-          borderLeft={1}
-          borderStyle={'solid'}
-          borderColor={useColorModeValue('gray.200', 'gray.700')}
-          align={'start'}>
-          {children &&
-            children.map((child) => (
-              <Link key={child.label} py={2} href={child.href}>
-                {child.label}
-              </Link>
-            ))}
-        </Stack>
-      </Collapse>
-    </Stack>
-  );
-};
+      {/* Mobile Content */}
+      <Flex
+        w='100vw'
+        display={display}
+        bgColor="gray.50"
+        h="100vh"
+        pos="fixed"
+        top="0"
+        left="0"
+        zIndex={20}
+        overflowY="auto"
+        flexDir="column"
+      >
+        <Flex justify="flex-end">
+          <IconButton
+            mt={2}
+            mr={2}
+            aria-label="Open Menu"
+            size="lg"
+            icon={
+              <CloseIcon />
+            }
+            onClick={() => changeDisplay('none')}
+          />
+        </Flex>
 
-MobileNavItem.propTypes = {
-  label: PropTypes.string.isRequired,
-  children: PropTypes.arrayOf(
-    PropTypes.shape({
-      label: PropTypes.string.isRequired,
-      href: PropTypes.string,
-    })
-  ),
-  href: PropTypes.string,
-};
+        <Flex
+          flexDir="column"
+          align="center"
+        >
+          <NextLink href="/" passHref>
+            <Button
+              as="a"
+              variant="ghost"
+              aria-label="Home"
+              my={5}
+              w="100%"
+            >
+              Home
+                    </Button>
+          </NextLink>
 
+          <NextLink href="/RepairServices" passHref>
+            <Button
+              as="a"
+              variant="ghost"
+              aria-label="About"
+              my={5}
+              w="100%"
+            >
+              Repair Services
+                    </Button>
+          </NextLink>
 
-const NAV_ITEMS = [
-  {
-    label: 'HOME',
-    href: '/',
-  },
-  {
-    label: 'SERVICES',
-    href: '/RepairServices',
-  },
-  {
-    label: 'ABOUT US',
-    href: '/aboutUs',
-  },
-];
+          <NextLink href="/aboutUs" passHref>
+            <Button
+              as="a"
+              variant="ghost"
+              aria-label="Contact"
+              my={5}
+              w="100%"
+            >
+              About Us
+            </Button>
+          </NextLink>
+        </Flex>
+      </Flex>
+    </Flex>
+  )
+}
