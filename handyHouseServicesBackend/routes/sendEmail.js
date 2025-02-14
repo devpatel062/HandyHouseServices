@@ -20,7 +20,7 @@ const sendConfirmationEmail = (email, booking) => {
             console.error("SMTP Verification Failed:", err);
             return;
         }
-        console.log("SMTP Server Ready 🚀");
+        console.log("SMTP Server Ready ");
     });
 
     const mailOptions = {

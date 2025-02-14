@@ -12,10 +12,10 @@ router.post("/repairServices", async (req,res) => {
         console.log(req.body)
         const newbooking = new Booking({fullname,address,contact,email,problem,date})
         console.log(newbooking)
-        
+
         try {
             await newbooking.save();
-            console.log("Booking Saved Successfully ✅");
+            console.log("Booking Saved Successfully");
         } catch (dbError) {
             console.error("Error Saving to DB:", dbError);
             return res.status(500).json({ message: "Failed to save booking", error: dbError });
@@ -23,7 +23,7 @@ router.post("/repairServices", async (req,res) => {
         console.log("sfsdfsdddddddddddddd")
         
         try {
-            await sendEmail(email, req.body);
+            sendEmail(email, req.body);
         } catch (emailError) {
             console.error("Email sending failed:", emailError);
         }
