@@ -8,13 +8,13 @@ const sendEmail = require("./sendEmail")
 router.post("/repairServices", async (req,res) => {
     try {
         const {fullname,address,contact,email,problem,date } = req.body
-        // console.log(req.body)
+        console.log(req.body)
         const newbooking = new Booking({fullname,address,contact,email,problem,date})
-        // console.log(newbooking)
+        console.log(newbooking)
         await newbooking.save()
-        // console.log("sfsdfsdddddddddddddd")
+        console.log("sfsdfsdddddddddddddd")
         
-    sendEmail(email,req.body)
+        sendEmail(email,req.body)
         res.status(201).json({message: "Service booked successfully!"})
         
     }catch (error) {
