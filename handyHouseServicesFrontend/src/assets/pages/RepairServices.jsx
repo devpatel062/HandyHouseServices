@@ -13,7 +13,7 @@ export const RepairServices = () => {
         <Card maxW='sm'>
           <CardBody>
             <Image
-              src={('../Images/plumber.jpg')}
+              src={'src/assets/Images/plumber.jpg'} 
               alt='Green double couch with wooden legs'
               borderRadius='lg'
             />
