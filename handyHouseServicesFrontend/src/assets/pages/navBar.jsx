@@ -320,7 +320,7 @@ import {
   IconButton
 } from '@chakra-ui/react'
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons'
-import NextLink from 'next/link'
+import { Link } from 'react-router-dom';
 
 
 export const DarkModeSwitch = () => {
@@ -329,51 +329,26 @@ export const DarkModeSwitch = () => {
   const [display, changeDisplay] = useState('none')
   return (
     <Flex>
-      <Flex
-        position="fixed"
-        top="1rem"
-        right="1rem"
-        align="center"
-      >
+      <Flex position="fixed" top="1rem" right="1rem" align="center">
         {/* Desktop */}
-        <Flex
-          display={['none', 'none', 'flex','flex']}
-        >
-          <NextLink href="/" passHref>
-            <Button
-              as="a"
-              variant="ghost"
-              aria-label="Home"
-              my={5}
-              w="100%"
-            >
+        <Flex display={['none', 'none', 'flex', 'flex']}>
+          <Link to="/" aria-label="Home">
+            <Button as="a" variant="ghost" my={5} w="100%">
               Home
-                    </Button>
-          </NextLink>
+            </Button>
+          </Link>
 
-          <NextLink to="/RepairServices" passHref>
-            <Button
-              as="a"
-              variant="ghost"
-              aria-label="About"
-              my={5}
-              w="100%"
-            >
+          <Link to="/RepairServices" aria-label="Repair Services">
+            <Button as="a" variant="ghost" my={5} w="100%">
               Repair Services
-                    </Button>
-          </NextLink>
+            </Button>
+          </Link>
 
-          <NextLink to="/aboutUs" passHref>
-            <Button
-              as="a"
-              variant="ghost"
-              aria-label="Contact"
-              my={5}
-              w="100%"
-            >
+          <Link to="/aboutUs" aria-label="About Us">
+            <Button as="a" variant="ghost" my={5} w="100%">
               About Us
-                    </Button>
-          </NextLink>
+            </Button>
+          </Link>
         </Flex>
 
         {/* Mobile */}
@@ -381,22 +356,16 @@ export const DarkModeSwitch = () => {
           aria-label="Open Menu"
           size="lg"
           mr={2}
-          icon={
-            <HamburgerIcon />
-          }
+          icon={<HamburgerIcon />}
           onClick={() => changeDisplay('flex')}
           display={['flex', 'flex', 'none', 'none']}
         />
-        <Switch
-          color="green"
-          isChecked={isDark}
-          onChange={toggleColorMode}
-        />
+        <Switch color="green" isChecked={isDark} onChange={toggleColorMode} />
       </Flex>
 
       {/* Mobile Content */}
       <Flex
-        w='100vw'
+        w="100vw"
         display={display}
         bgColor="gray.50"
         h="100vh"
@@ -411,56 +380,34 @@ export const DarkModeSwitch = () => {
           <IconButton
             mt={2}
             mr={2}
-            aria-label="Open Menu"
+            aria-label="Close Menu"
             size="lg"
-            icon={
-              <CloseIcon />
-            }
+            icon={<CloseIcon />}
             onClick={() => changeDisplay('none')}
           />
         </Flex>
 
-        <Flex
-          flexDir="column"
-          align="center"
-        >
-          <NextLink href="/" passHref>
-            <Button
-              as="a"
-              variant="ghost"
-              aria-label="Home"
-              my={5}
-              w="100%"
-            >
+        <Flex flexDir="column" align="center">
+          <Link to="/" aria-label="Home">
+            <Button as="a" variant="ghost" my={5} w="100%">
               Home
-                    </Button>
-          </NextLink>
+            </Button>
+          </Link>
 
-          <NextLink href="/RepairServices" passHref>
-            <Button
-              as="a"
-              variant="ghost"
-              aria-label="About"
-              my={5}
-              w="100%"
-            >
+          <Link to="/RepairServices" aria-label="Repair Services">
+            <Button as="a" variant="ghost" my={5} w="100%">
               Repair Services
-                    </Button>
-          </NextLink>
+            </Button>
+          </Link>
 
-          <NextLink href="/aboutUs" passHref>
-            <Button
-              as="a"
-              variant="ghost"
-              aria-label="Contact"
-              my={5}
-              w="100%"
-            >
+          <Link to="/aboutUs" aria-label="About Us">
+            <Button as="a" variant="ghost" my={5} w="100%">
               About Us
             </Button>
-          </NextLink>
+          </Link>
         </Flex>
       </Flex>
     </Flex>
+
   )
 }
