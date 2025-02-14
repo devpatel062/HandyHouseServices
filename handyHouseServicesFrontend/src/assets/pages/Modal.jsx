@@ -33,16 +33,23 @@ function Modal({onClose}) {
             // alert(response.data.message)
             toast({
                 title: response.data.message,
-                status: "Booking Confirmation email sent to your email Id",
+                status: "success",
+                description: "Booking Confirmation email sent to your email Id",
                 duration: 6000,
                 isClosable: true,
             });
+
+            setTimeout(() => {
+                setLoading(false);
+                onClose(); // Delay closing the modal
+            }, 1000); 
+
         }catch (error) {
             console.error(error.response || error.message)
             alert("service booking failed, please book again")
+            setLoading(false);
         }
-        setLoading(false);
-        onClose()
+        
     }
 
     return (
