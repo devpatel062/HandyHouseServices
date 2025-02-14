@@ -12,7 +12,14 @@ router.post("/repairServices", async (req,res) => {
         console.log(req.body)
         const newbooking = new Booking({fullname,address,contact,email,problem,date})
         console.log(newbooking)
-        await newbooking.save()
+        
+        try {
+            await newbooking.save();
+            console.log("Booking Saved Successfully ✅");
+        } catch (dbError) {
+            console.error("Error Saving to DB:", dbError);
+            return res.status(500).json({ message: "Failed to save booking", error: dbError });
+        }
         console.log("sfsdfsdddddddddddddd")
         
         try {
