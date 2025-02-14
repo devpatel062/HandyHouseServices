@@ -6,6 +6,7 @@ const router = express.Router();
 const sendEmail = require("./sendEmail")
 
 router.post("/repairServices", async (req,res) => {
+    console.log("ok ok")
     try {
         const {fullname,address,contact,email,problem,date } = req.body
         console.log(req.body)
