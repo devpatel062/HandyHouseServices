@@ -323,7 +323,7 @@ import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons'
 import { Link } from 'react-router-dom';
 
 
-export const DarkModeSwitch = () => {
+export const Navbar = () => {
   const { colorMode, toggleColorMode } = useColorMode()
   const isDark = colorMode === 'dark'
   const [display, changeDisplay] = useState('none')
