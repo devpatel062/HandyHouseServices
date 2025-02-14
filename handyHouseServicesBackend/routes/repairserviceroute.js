@@ -15,7 +15,11 @@ router.post("/repairServices", async (req,res) => {
         await newbooking.save()
         console.log("sfsdfsdddddddddddddd")
         
-        sendEmail(email,req.body)
+        try {
+            await sendEmail(email, req.body);
+        } catch (emailError) {
+            console.error("Email sending failed:", emailError);
+        }
         res.status(201).json({message: "Service booked successfully!"})
         
     }catch (error) {

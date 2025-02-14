@@ -9,7 +9,6 @@ import axios from "axios"
 function Modal({onClose}) {
     const modalRef = useRef();
 
-   
 
     const [formData,setFormData] = useState({
         fullname:"",
