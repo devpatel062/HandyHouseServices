@@ -1,6 +1,6 @@
 // import React from 'react'
 import { X } from 'lucide-react';
-import { Input } from '@chakra-ui/react'
+import { Input, useToast } from '@chakra-ui/react'
 import { useRef, useState } from 'react'
 import axios from "axios"
 // import {useState} from 'react'
@@ -25,12 +25,19 @@ function Modal({onClose}) {
     };
 
     const [loading, setLoading] = useState(false);
+    const toast = useToast();
     const handleSubmit = async (e) => {
         e.preventDefault()
         setLoading(true);
         try{
             const response = await axios.post("https://handy-house-services-backend.vercel.app/api/repairServices",formData)
-            alert(response.data.message)
+            // alert(response.data.message)
+            toast({
+                title: response.data.message,
+                status: "Booking Confirmation email sent to your email Id",
+                duration: 6000,
+                isClosable: true,
+            })
         }catch (error) {
             console.error(error)
             alert("service booking failed, please book again")

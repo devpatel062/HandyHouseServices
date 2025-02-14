@@ -12,7 +12,7 @@ import {
     Heading,
     Text,
     useColorModeValue,
-    Toast
+    useToast
 } from '@chakra-ui/react'
 import axios from "axios";
 import { useState } from 'react'
@@ -23,6 +23,7 @@ import { useNavigate } from 'react-router-dom';
 
 
 export const SimpleCard = () => {
+    const toast = useToast();
     const [showPassword, setShowPassword] = useState(false);
     const [formData, setFormData] = useState({
         email: "",
@@ -38,7 +39,7 @@ export const SimpleCard = () => {
         try {
             const response = await axios.post("https://handy-house-services-backend.vercel.app/api/signin", formData,  { withCredentials: true });
             // alert(response.data.message);
-            Toast({
+            toast({
                 title: response.data.message,
                 status: "success",
                 duration: 9000,
