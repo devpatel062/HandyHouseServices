@@ -1,12 +1,12 @@
 // import React from 'react'
 import { Card, Image, Stack, Text, Heading, Divider, ButtonGroup, Button, SimpleGrid, CardBody, CardFooter } from '@chakra-ui/react'
 import { useState } from 'react';
-import plumber from '../assets/Images/plumber.jpg';
-import electrician from '../assets/Images/electrician.jpg';
-import carpenter from '../assets/Images/carpenter.jpg';
-import babysitter from '../assets/Images/babysitter.png';
-import gardener from '../assets/Images/gardener.webp';
-import petsitter from '../assets/Images/petsitter.jpg';
+import plumber from '../Images/plumber.jpg';
+import electrician from '../Images/electrician.jpg';
+import carpenter from '../Images/carpenter.jpg';
+import babysitter from '../Images/babysitter.png';
+import gardener from '../Images/gardener.webp';
+import petsitter from '../Images/petsitter.jpg';
 import Modal from './Modal'
 import Footer from './Footer'
 
