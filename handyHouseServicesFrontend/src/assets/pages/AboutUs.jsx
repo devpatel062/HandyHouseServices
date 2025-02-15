@@ -2,6 +2,7 @@
 import { Divider, Image } from "@chakra-ui/react";
 import ContactUs from './ContactUs'
 import Footer from './Footer'
+import collage from '../Images/collage.jpg'
 export const AboutUs = () => {
   return (
     <div className="relative top-20 bg" >
@@ -30,7 +31,7 @@ export const AboutUs = () => {
             <br />Customer Satisfaction
           </div>
         </div>
-        <Image src=".\src\assets\Images\collage.jpg" height="350px" width="500px" borderRadius="50px"></Image>
+        <Image src={collage} height="350px" width="500px" borderRadius="50px"></Image>
       </div>
 
       <Divider></Divider>

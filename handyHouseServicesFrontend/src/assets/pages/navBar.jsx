@@ -329,7 +329,7 @@ export const Navbar = () => {
   const [display, changeDisplay] = useState('none')
   return (
     <Flex>
-      <Flex position="fixed" top="1rem" right="1rem" align="center">
+      <Flex position="absolute" top="1rem" right="1rem" align="center">
         {/* Desktop */}
         <Flex display={['none', 'none', 'flex', 'flex']}>
           <Link to="/" aria-label="Home">
