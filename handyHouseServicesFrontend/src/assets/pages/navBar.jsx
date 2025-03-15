@@ -340,7 +340,7 @@ export const Navbar = () => {
     <Flex>
       <Flex position="absolute" top="1rem" right="1rem" align="center">
         <Flex display={['none', 'none', 'flex', 'flex']}>
-          <Link to="/" aria-label="Home">
+          <Link to={user ? "/" : "#"} aria-label="Home">
             <Button as="a" variant="ghost" my={5} w="100%">
               Home
             </Button>

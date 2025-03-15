@@ -14,6 +14,14 @@ import {SignupCard} from './assets/Auth/signup'
 import { Navigate } from 'react-router-dom';
 function App() {
 
+  const [user, setUser] = useState(null)
+
+  useEffect(() => {
+    axios
+      .get("https://handy-house-services-backend.vercel.app/api/user", { withCredentials: true })
+      .then((response) => setUser(response.data))
+      .catch(() => setUser(null))
+  }, [])
   return (
     <>
       <Navbar className="w-full bg-white shadow-md z-100"/>
