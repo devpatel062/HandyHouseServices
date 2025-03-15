@@ -340,13 +340,13 @@ export const Navbar = ({user}) => {
     <Flex>
       <Flex position="absolute" top="1rem" right="1rem" align="center">
         <Flex display={['none', 'none', 'flex', 'flex']}>
-          <Link to={user ? "/" : "#"} aria-label="Home">
+          <Link to="/" aria-label="Home">
             <Button as="a" variant="ghost" my={5} w="100%">
               Home
             </Button>
           </Link>
 
-          <Link to={user ? "/RepairServices" : "#"} aria-label="Repair Services">
+          <Link to="/RepairServices"  aria-label="Repair Services">
             <Button
               as="a"
               variant="ghost"
@@ -358,7 +358,7 @@ export const Navbar = ({user}) => {
             </Button>
           </Link>
 
-          <Link to={user ? "/aboutUs" : "#"} aria-label="About Us">
+          <Link to="/aboutUs" aria-label="About Us">
             <Button
               as="a"
               variant="ghost"

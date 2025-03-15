@@ -1,4 +1,4 @@
-import { useState,useEffect } from 'react'
+import { useState, useEffect } from 'react'
 // import reactLogo from './assets/react.svg'
 // import viteLogo from '/vite.svg'
 // import { Container } from 'postcss'
@@ -8,9 +8,9 @@ import { Navbar } from './assets/pages/navBar'
 import { HomePage } from './assets/pages/homePage'
 import { RepairServices } from './assets/pages/RepairServices'
 import { AboutUs } from './assets/pages/AboutUs'
-import {CleaningServices} from './assets/pages/CleaningServices'
-import {SimpleCard} from './assets/Auth/signin'
-import {SignupCard} from './assets/Auth/signup'
+import { CleaningServices } from './assets/pages/CleaningServices'
+import { SimpleCard } from './assets/Auth/signin'
+import { SignupCard } from './assets/Auth/signup'
 import { Navigate } from 'react-router-dom';
 import axios from 'axios'
 
@@ -29,14 +29,14 @@ function App() {
       <Navbar className="w-full bg-white shadow-md z-100" user={user} />
       <div className="pt-16"> {/* Adjust the padding-top value according to the navbar height */}
         <Routes>
-          <Route path="/" element={<Navigate to="/signin" />} />
-          <Route path="/homePage" element={<HomePage />} />
+          <Route path="/" element={user ? <HomePage /> : <Navigate to="/signin" />} />
           <Route path="/signin" element={<SimpleCard />} />
           <Route path="/signup" element={<SignupCard />} />
-          <Route path="/RepairServices" element={<RepairServices />} />
-          <Route path="/aboutUs" element={<AboutUs />} />
-          <Route path="CleaningServices" element={<CleaningServices />} />
+          <Route path="/RepairServices" element={user ? <RepairServices /> : <Navigate to="/signin" />} />
+          <Route path="/aboutUs" element={user ? <AboutUs /> : <Navigate to="/signin" />} />
+          <Route path="/CleaningServices" element={user ? <CleaningServices /> : <Navigate to="/signin" />} />
         </Routes>
+
       </div>
     </>
   )
