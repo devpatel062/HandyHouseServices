@@ -327,7 +327,7 @@ export const Navbar = ({user, setUser}) => {
   const { colorMode, toggleColorMode } = useColorMode()
   const isDark = colorMode === 'dark'
   const [display, changeDisplay] = useState('none')
-  const [user, setUser] = useState(null)
+  // const [user, setUser] = useState(null)
 
   // useEffect(() => {
   //   axios
