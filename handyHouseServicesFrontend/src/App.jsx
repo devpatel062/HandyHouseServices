@@ -12,6 +12,8 @@ import {CleaningServices} from './assets/pages/CleaningServices'
 import {SimpleCard} from './assets/Auth/signin'
 import {SignupCard} from './assets/Auth/signup'
 import { Navigate } from 'react-router-dom';
+import axios from 'axios'
+
 function App() {
 
   const [user, setUser] = useState(null)
@@ -24,7 +26,7 @@ function App() {
   }, [])
   return (
     <>
-      <Navbar className="w-full bg-white shadow-md z-100"/>
+      <Navbar className="w-full bg-white shadow-md z-100" user={user} setUser={setUSer}/>
       <div className="pt-16"> {/* Adjust the padding-top value according to the navbar height */}
         <Routes>
           <Route path="/" element={<Navigate to="/signin" />} />
