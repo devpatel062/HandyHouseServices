@@ -323,7 +323,7 @@ import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 
-export const Navbar = ({user, setUser}) => {
+export const Navbar = ({user}) => {
   const { colorMode, toggleColorMode } = useColorMode()
   const isDark = colorMode === 'dark'
   const [display, changeDisplay] = useState('none')

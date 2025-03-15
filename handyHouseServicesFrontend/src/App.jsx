@@ -26,7 +26,7 @@ function App() {
   }, [])
   return (
     <>
-      <Navbar className="w-full bg-white shadow-md z-100" user={user} setUser={setUSer}/>
+      <Navbar className="w-full bg-white shadow-md z-100" user={user} />
       <div className="pt-16"> {/* Adjust the padding-top value according to the navbar height */}
         <Routes>
           <Route path="/" element={<Navigate to="/signin" />} />
