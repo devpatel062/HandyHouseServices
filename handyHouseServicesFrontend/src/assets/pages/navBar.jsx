@@ -311,7 +311,7 @@
 // ];
 
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
   useColorMode,
   Switch,
@@ -320,17 +320,25 @@ import {
   IconButton
 } from '@chakra-ui/react'
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons'
-import { Link } from 'react-router-dom';
-
+import { Link } from 'react-router-dom'
+import axios from 'axios'
 
 export const Navbar = () => {
   const { colorMode, toggleColorMode } = useColorMode()
   const isDark = colorMode === 'dark'
   const [display, changeDisplay] = useState('none')
+  const [user, setUser] = useState(null)
+
+  useEffect(() => {
+    axios
+      .get('https://handy-house-services-backend.vercel.app/api/user', { withCredentials: true })
+      .then((response) => setUser(response.data))
+      .catch(() => setUser(null))
+  }, [])
+
   return (
     <Flex>
       <Flex position="absolute" top="1rem" right="1rem" align="center">
-        {/* Desktop */}
         <Flex display={['none', 'none', 'flex', 'flex']}>
           <Link to="/" aria-label="Home">
             <Button as="a" variant="ghost" my={5} w="100%">
@@ -338,20 +346,31 @@ export const Navbar = () => {
             </Button>
           </Link>
 
-          <Link to="/RepairServices" aria-label="Repair Services">
-            <Button as="a" variant="ghost" my={5} w="100%">
+          <Link to={user ? "/RepairServices" : "#"} aria-label="Repair Services">
+            <Button
+              as="a"
+              variant="ghost"
+              my={5}
+              w="100%"
+              isDisabled={!user}
+            >
               Repair Services
             </Button>
           </Link>
 
-          <Link to="/aboutUs" aria-label="About Us">
-            <Button as="a" variant="ghost" my={5} w="100%">
+          <Link to={user ? "/aboutUs" : "#"} aria-label="About Us">
+            <Button
+              as="a"
+              variant="ghost"
+              my={5}
+              w="100%"
+              isDisabled={!user}
+            >
               About Us
             </Button>
           </Link>
         </Flex>
 
-        {/* Mobile */}
         <IconButton
           aria-label="Open Menu"
           size="lg"
@@ -363,7 +382,6 @@ export const Navbar = () => {
         <Switch color="green" isChecked={isDark} onChange={toggleColorMode} />
       </Flex>
 
-      {/* Mobile Content */}
       <Flex
         w="100vw"
         display={display}
@@ -394,20 +412,31 @@ export const Navbar = () => {
             </Button>
           </Link>
 
-          <Link to="/RepairServices" aria-label="Repair Services">
-            <Button as="a" variant="ghost" my={5} w="100%">
+          <Link to={user ? "/RepairServices" : "#"} aria-label="Repair Services">
+            <Button
+              as="a"
+              variant="ghost"
+              my={5}
+              w="100%"
+              isDisabled={!user}
+            >
               Repair Services
             </Button>
           </Link>
 
-          <Link to="/aboutUs" aria-label="About Us">
-            <Button as="a" variant="ghost" my={5} w="100%">
+          <Link to={user ? "/aboutUs" : "#"} aria-label="About Us">
+            <Button
+              as="a"
+              variant="ghost"
+              my={5}
+              w="100%"
+              isDisabled={!user}
+            >
               About Us
             </Button>
           </Link>
         </Flex>
       </Flex>
     </Flex>
-
   )
 }
