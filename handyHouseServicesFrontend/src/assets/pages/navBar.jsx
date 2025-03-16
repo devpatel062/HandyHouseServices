@@ -179,7 +179,7 @@
 // import PropTypes from 'prop-types';
 
 // const DesktopSubNav = ({ label, href, subLabel }) => {
-  
+
 //   return (
 //     <Link
 //       href={href}
@@ -323,18 +323,20 @@ import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 
-export const Navbar = ({user}) => {
+export const Navbar = ({ user }) => {
   const { colorMode, toggleColorMode } = useColorMode()
   const isDark = colorMode === 'dark'
   const [display, changeDisplay] = useState('none')
-  // const [user, setUser] = useState(null)
 
-  // useEffect(() => {
-  //   axios
-  //     .get('https://handy-house-services-backend.vercel.app/api/user', { withCredentials: true })
-  //     .then((response) => setUser(response.data))
-  //     .catch(() => setUser(null))
-  // }, [])
+  const handleLogout = async () => {
+    try {
+      await axios.post("https://handy-house-services-backend.vercel.app/api/logout", {}, { withCredentials: true });
+      setUser(null);
+      navigate('/signin');
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
+  };
 
   return (
     <Flex>
@@ -346,7 +348,7 @@ export const Navbar = ({user}) => {
             </Button>
           </Link>
 
-          <Link to="/RepairServices"  aria-label="Repair Services">
+          <Link to="/RepairServices" aria-label="Repair Services">
             <Button
               as="a"
               variant="ghost"
@@ -435,6 +437,15 @@ export const Navbar = ({user}) => {
               About Us
             </Button>
           </Link>
+          <Button
+            onClick={handleLogout}
+            variant="solid"
+            colorScheme="red"
+            my={5}
+            w="100%"
+          >
+            Logout
+          </Button>
         </Flex>
       </Flex>
     </Flex>
