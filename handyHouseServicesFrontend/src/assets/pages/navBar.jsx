@@ -371,6 +371,15 @@ export const Navbar = ({ user }) => {
               About Us
             </Button>
           </Link>
+          <Button
+            onClick={handleLogout}
+            variant="solid"
+            colorScheme="red"
+            my={5}
+            w="100%"
+          >
+            Logout
+          </Button>
         </Flex>
 
         <IconButton
