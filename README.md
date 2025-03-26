@@ -15,10 +15,6 @@ HandyHouseServices is a web application designed to facilitate home service book
 - Easy appointment scheduling for services
 - Users can select date, time, and service provider based on availability
 
-### 🛒 Secure Payments
-- Integration with secure payment gateways
-- Supports multiple payment methods
-
 ### 👤 User Accounts & Profiles
 - Registration and login functionality
 - Users can view their booking history and manage appointments
