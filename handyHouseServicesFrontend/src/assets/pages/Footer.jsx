@@ -36,7 +36,7 @@ export default function Footer() {
       </div>
 
       <div className="border-t border-white/20 mt-6 pt-4 text-center text-sm">
-        &copy; {new Date().getFullYear()} SparkleClean Services. All Rights Reserved.
+        &copy; {new Date().getFullYear()} HouseHold Services. All Rights Reserved.
       </div>
     </footer>
   );
