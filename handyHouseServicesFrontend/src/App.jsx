@@ -21,12 +21,12 @@ function App() {
   const [user, setUser] = useState(null)
   const [state, dispatch] = useReducer(reducer, initialState)
 
-  useEffect(() => {
-    axios
-      .get("https://handy-house-services-backend.vercel.app/api/user", { withCredentials: true })
-      .then((response) => setUser(response.data))
-      .catch(() => setUser(null))
-  }, [])
+  // useEffect(() => {
+  //   axios
+  //     .get("https://handy-house-services-backend.vercel.app/api/user", { withCredentials: true })
+  //     .then((response) => setUser(response.data))
+  //     .catch(() => setUser(null))
+  // }, [])
   return (
     <>
       <UserContext.Provider value = {{state, dispatch}}>

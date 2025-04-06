@@ -32,7 +32,7 @@ export const HomePage = () => {
         </motion.p>
         <motion.div
           className="mt-10 grid grid-cols-3 gap-6 text-center"
-          initial={{ opacity: 0 }}
+          initial={{ opacity: 0 }} 
           animate={{ opacity: 1 }}
           transition={{ delay: 1, duration: 1 }}
         >
