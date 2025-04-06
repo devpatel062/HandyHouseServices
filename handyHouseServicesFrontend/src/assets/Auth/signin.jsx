@@ -17,7 +17,6 @@ import {
 import axios from "axios";
 import { useState, useContext } from "react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
-// import { Navigate } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../App";
 
