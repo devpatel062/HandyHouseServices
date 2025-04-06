@@ -12,7 +12,7 @@ import { CleaningServices } from './assets/pages/CleaningServices'
 import { SimpleCard } from './assets/Auth/signin'
 import { SignupCard } from './assets/Auth/signup'
 import { Navigate } from 'react-router-dom';
-import { initialState, reducer } from './Reducer/useReducer'
+import { initialState, reducer } from './assets/reducer/useReducer'
 import axios from 'axios'
  
 export const UserContext = createContext();
