@@ -9,9 +9,9 @@ import {
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { UserContext } from "../../App";
+// import { UserContext } from "../../App";
 
-const { state, dispatch } = useContext(UserContext);
+// const { state, dispatch } = useContext(UserContext);
 
 export const Navbar = ({ user }) => {
   const { colorMode, toggleColorMode } = useColorMode();
@@ -26,7 +26,7 @@ export const Navbar = ({ user }) => {
         { withCredentials: true }
       );
       setUser(null);
-      dispatch({ type: UserContext, payload: false });
+      // dispatch({ type: UserContext, payload: false });
       navigate("/signin");
     } catch (error) {
       console.error("Logout failed:", error);
@@ -34,17 +34,17 @@ export const Navbar = ({ user }) => {
   };
 
   const decision = () => {
-    if (state) {
-      <Button
-        onClick={handleLogout}
-        variant="solid"
-        colorScheme="red"
-        my={5}
-        w="100%"
-      >
-        Logout
-      </Button>;
-    }
+    // if (state) {
+    //   <Button
+    //     onClick={handleLogout}
+    //     variant="solid"
+    //     colorScheme="red"
+    //     my={5}
+    //     w="100%"
+    //   >
+    //     Logout
+    //   </Button>;
+    // }
   };
 
   return (

@@ -18,12 +18,12 @@ import axios from "axios";
 import { useState, useContext } from "react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { useNavigate } from "react-router-dom";
-import { UserContext } from "../../App";
+// import { UserContext } from "../../App";
 
 export const SimpleCard = () => {
   const toast = useToast();
   const [showPassword, setShowPassword] = useState(false);
-  const { state, dispatch } = useContext(UserContext);
+//   const { state, dispatch } = useContext(UserContext);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
@@ -49,7 +49,7 @@ export const SimpleCard = () => {
         duration: 9000,
         isClosable: true,
       });
-      dispatch({ type: "USER", payload: true });
+    //   dispatch({ type: "USER", payload: true });
       navigate("/homePage");
     } catch (error) {
       if (error.response) {

@@ -12,14 +12,14 @@ import { CleaningServices } from './assets/pages/CleaningServices'
 import { SimpleCard } from './assets/Auth/signin'
 import { SignupCard } from './assets/Auth/signup'
 import { Navigate } from 'react-router-dom';
-import { reducer, initialState } from './assets/reducer/useReducer'
+// import { initialState, reducer } from './assets/reducer/useReducer'
 import axios from 'axios'
  
-// export const UserContext = createContext();
+export const UserContext = createContext();
 
 function App() {
   const [user, setUser] = useState(null)
-  const [state, dispatch] = useReducer(reducer, initialState)
+  // const [state, dispatch] = useReducer(reducer, initialState)
 
   useEffect(() => {
     axios
@@ -29,7 +29,7 @@ function App() {
   }, [])
   return (
     <>
-      <UserContext.Provider value = {{state, dispatch}}>
+      {/* <UserContext.Provider value = {{state, dispatch}}> */}
         <Navbar className="w-full bg-white shadow-md z-100" user={user} />
         <div className="pt-16"> {/* Adjust the padding-top value according to the navbar height */}
           <Routes>
@@ -42,7 +42,7 @@ function App() {
           </Routes>
 
         </div>
-      </UserContext.Provider>
+      {/* </UserContext.Provider> */}
     </>
   )
 }
