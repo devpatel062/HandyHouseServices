@@ -325,19 +325,6 @@ import axios from 'axios'
 import { UserContext } from '../../App'
 
 const { state, dispatch } = useContext(UserContext);
-const decision = () => {
-  if (state) {
-    <Button
-      onClick={handleLogout}
-      variant="solid"
-      colorScheme="red"
-      my={5}
-      w="100%"
-    >
-      Logout
-    </Button>
-  }
-}
 
 export const Navbar = ({ user }) => {
 
@@ -355,6 +342,20 @@ export const Navbar = ({ user }) => {
       console.error("Logout failed:", error);
     }
   };
+
+  const decision = () => {
+    if (state) {
+      <Button
+        onClick={handleLogout}
+        variant="solid"
+        colorScheme="red"
+        my={5}
+        w="100%"
+      >
+        Logout
+      </Button>
+    }
+  }
 
 
   return (
