@@ -15,10 +15,11 @@ import {
     useToast
 } from '@chakra-ui/react'
 import axios from "axios";
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
 // import { Navigate } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import { UserContext } from '../../App';
 
 
 
@@ -45,6 +46,7 @@ export const SimpleCard = () => {
                 duration: 9000,
                 isClosable: true,
             })
+            dispatch({type: "USER", payload:true})
             navigate('/homePage')
         } catch (error) {
             if (error.response) {
@@ -63,6 +65,7 @@ export const SimpleCard = () => {
         navigate('/signup')
     }
 
+    const {state,dispatch} = useContext(UserContext)
     return (
         <Flex
             minH={'100vh'}

@@ -311,7 +311,7 @@
 // ];
 
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useContext } from 'react'
 import {
   useColorMode,
   Switch,
@@ -322,8 +322,25 @@ import {
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
+import { UserContext } from '../../App'
+
+const { state, dispatch } = useContext(UserContext);
+const decision = () => {
+  if (state) {
+    <Button
+      onClick={handleLogout}
+      variant="solid"
+      colorScheme="red"
+      my={5}
+      w="100%"
+    >
+      Logout
+    </Button>
+  }
+}
 
 export const Navbar = ({ user }) => {
+
   const { colorMode, toggleColorMode } = useColorMode()
   const isDark = colorMode === 'dark'
   const [display, changeDisplay] = useState('none')
@@ -332,13 +349,16 @@ export const Navbar = ({ user }) => {
     try {
       await axios.post("https://handy-house-services-backend.vercel.app/api/logout", {}, { withCredentials: true });
       setUser(null);
+      dispatch({ type: UserContext, payload: false })
       navigate('/signin');
     } catch (error) {
       console.error("Logout failed:", error);
     }
   };
 
+
   return (
+
     <Flex>
       <Flex position="absolute" top="1rem" right="1rem" align="center">
         <Flex display={['none', 'none', 'flex', 'flex']}>
@@ -371,15 +391,7 @@ export const Navbar = ({ user }) => {
               About Us
             </Button>
           </Link>
-          <Button
-            onClick={handleLogout}
-            variant="solid"
-            colorScheme="red"
-            my={5}
-            w="100%"
-          >
-            Logout
-          </Button>
+          {decision()}
         </Flex>
 
         <IconButton
@@ -446,15 +458,7 @@ export const Navbar = ({ user }) => {
               About Us
             </Button>
           </Link>
-          <Button
-            onClick={handleLogout}
-            variant="solid"
-            colorScheme="red"
-            my={5}
-            w="100%"
-          >
-            Logout
-          </Button>
+          {decision()}
         </Flex>
       </Flex>
     </Flex>
