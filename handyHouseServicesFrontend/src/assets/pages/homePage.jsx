@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 export const HomePage = () => {
   return (
     <div className="grid h-screen place-items-center bg-gradient-to-r from-blue-100 to-blue-300">
+      <>bmnbhyy</>
       <div className="text-center">
         <motion.div
           className="text-5xl font-bold text-blue-600"
