@@ -58,15 +58,17 @@ export const Navbar = () => {
             </Button>
           </Link>
           {user ? (
-            <Link
-              onClick={handleLogout}
-              bg="white"
-              color="black"
-              border="1px solid #ccc"
-              _hover={{ bg: "gray.100" }}
-              _active={{ bg: "gray.200" }}
-            >
-              Logout
+            <Link>
+              <Button
+                onClick={handleLogout}
+                bg="white"
+                color="black"
+                border="1px solid #ccc"
+                _hover={{ bg: "gray.100" }}
+                _active={{ bg: "gray.200" }}
+              >
+                Logout
+              </Button>
             </Link>
           ) : (
             <></>
@@ -129,15 +131,17 @@ export const Navbar = () => {
             </Button>
           </Link>
           {user ? (
-            <Link
-              onClick={handleLogout}
-              bg="white"
-              color="black"
-              border="1px solid #ccc"
-              _hover={{ bg: "gray.100" }}
-              _active={{ bg: "gray.200" }}
-            >
-              Logout
+            <Link>
+              <Button
+                onClick={handleLogout}
+                bg="white"
+                color="black"
+                border="1px solid #ccc"
+                _hover={{ bg: "gray.100" }}
+                _active={{ bg: "gray.200" }}
+              >
+                Logout
+              </Button>
             </Link>
           ) : (
             <></>
