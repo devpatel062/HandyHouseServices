@@ -11,7 +11,6 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { UserContext } from "../../App";
 
-
 export const Navbar = () => {
   const { user, setUser } = useContext(UserContext);
   const { colorMode, toggleColorMode } = useColorMode();
@@ -44,7 +43,10 @@ export const Navbar = () => {
             </Button>
           </Link>
 
-          <Link to={user ? "/RepairServices" : "#"} aria-label="Repair Services">
+          <Link
+            to={user ? "/RepairServices" : "#"}
+            aria-label="Repair Services"
+          >
             <Button as="a" variant="ghost" my={5} w="100%" isDisabled={!user}>
               Repair Services
             </Button>
@@ -58,10 +60,11 @@ export const Navbar = () => {
           {user ? (
             <Button
               onClick={handleLogout}
-              variant="solid"
-              colorScheme="red"
-              my={5}
-              w="100%"
+              bg="white"
+              color="black"
+              border="1px solid #ccc"
+              _hover={{ bg: "gray.100" }}
+              _active={{ bg: "gray.200" }}
             >
               Logout
             </Button>
@@ -128,10 +131,11 @@ export const Navbar = () => {
           {user ? (
             <Button
               onClick={handleLogout}
-              variant="solid"
-              colorScheme="red"
-              my={5}
-              w="100%"
+              bg="white"
+              color="black"
+              border="1px solid #ccc"
+              _hover={{ bg: "gray.100" }}
+              _active={{ bg: "gray.200" }}
             >
               Logout
             </Button>
