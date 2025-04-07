@@ -45,6 +45,17 @@ export const Navbar = () => {
         Logout
       </Button>;
     }
+    else{
+      <Button
+        onClick={handleLogout}
+        variant="solid"
+        colorScheme="red"
+        my={5}
+        w="100%"
+      >
+        OKKK
+      </Button>;
+    }
   };
 
   return (
