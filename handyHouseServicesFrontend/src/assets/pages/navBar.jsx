@@ -138,7 +138,27 @@ export const Navbar = () => {
               About Us
             </Button>
           </Link>
-          {decision()}
+          {user ? (
+            <Button
+              onClick={handleLogout}
+              variant="solid"
+              colorScheme="red"
+              my={5}
+              w="100%"
+            >
+              Logout
+            </Button>
+          ) : (
+            <Button
+              onClick={handleLogout}
+              variant="solid"
+              colorScheme="red"
+              my={5}
+              w="100%"
+            >
+              OKKK
+            </Button>
+          )}
         </Flex>
       </Flex>
     </Flex>
