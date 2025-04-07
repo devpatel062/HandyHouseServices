@@ -30,7 +30,7 @@ function App() {
   return (
     <>
       <UserContext.Provider value = {{ user, setUser}}>
-        <Navbar className="w-full bg-white shadow-md z-100" user={user} />
+        <Navbar className="w-full bg-white shadow-md z-100" />
         <div className="pt-16"> {/* Adjust the padding-top value according to the navbar height */}
           <Routes>
             <Route path="/" element={user ? <HomePage /> : <Navigate to="/signin" />} />

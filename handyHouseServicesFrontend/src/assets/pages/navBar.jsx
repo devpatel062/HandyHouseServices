@@ -12,7 +12,7 @@ import axios from "axios";
 import { UserContext } from "../../App";
 
 
-export const Navbar = ({ user }) => {
+export const Navbar = () => {
   const { user, setUser } = useContext(UserContext);
   const { colorMode, toggleColorMode } = useColorMode();
   const isDark = colorMode === "dark";
