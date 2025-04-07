@@ -58,7 +58,7 @@ export const Navbar = () => {
             </Button>
           </Link>
           {user ? (
-            <Button
+            <Link
               onClick={handleLogout}
               bg="white"
               color="black"
@@ -67,7 +67,7 @@ export const Navbar = () => {
               _active={{ bg: "gray.200" }}
             >
               Logout
-            </Button>
+            </Link>
           ) : (
             <></>
           )}
@@ -129,7 +129,7 @@ export const Navbar = () => {
             </Button>
           </Link>
           {user ? (
-            <Button
+            <Link
               onClick={handleLogout}
               bg="white"
               color="black"
@@ -138,7 +138,7 @@ export const Navbar = () => {
               _active={{ bg: "gray.200" }}
             >
               Logout
-            </Button>
+            </Link>
           ) : (
             <></>
           )}
