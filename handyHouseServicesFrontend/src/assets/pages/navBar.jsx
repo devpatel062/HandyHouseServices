@@ -33,54 +33,49 @@ export const Navbar = () => {
     }
   };
 
-  const decision = () => {
-    if (user) {
-      <Button
-        onClick={handleLogout}
-        variant="solid"
-        colorScheme="red"
-        my={5}
-        w="100%"
-      >
-        Logout
-      </Button>;
-    }
-    else{
-      <Button
-        onClick={handleLogout}
-        variant="solid"
-        colorScheme="red"
-        my={5}
-        w="100%"
-      >
-        OKKK
-      </Button>;
-    }
-  };
-
   return (
     <Flex>
       <>dsdsdsadsad</>
       <Flex position="absolute" top="1rem" right="1rem" align="center">
         <Flex display={["none", "none", "flex", "flex"]}>
-          <Link to="/" aria-label="Home">
+          <Link to={user ? "/" : "#"} aria-label="Home">
             <Button as="a" variant="ghost" my={5} w="100%">
               Home
             </Button>
           </Link>
 
-          <Link to="/RepairServices" aria-label="Repair Services">
+          <Link to={user ? "/RepairServices" : "#"} aria-label="Repair Services">
             <Button as="a" variant="ghost" my={5} w="100%" isDisabled={!user}>
               Repair Services
             </Button>
           </Link>
 
-          <Link to="/aboutUs" aria-label="About Us">
+          <Link to={user ? "/aboutUs" : "#"} aria-label="About Us">
             <Button as="a" variant="ghost" my={5} w="100%" isDisabled={!user}>
               About Us
             </Button>
           </Link>
-          {decision()}
+          {user ? (
+            <Button
+              onClick={handleLogout}
+              variant="solid"
+              colorScheme="red"
+              my={5}
+              w="100%"
+            >
+              Logout
+            </Button>
+          ) : (
+            <Button
+              onClick={handleLogout}
+              variant="solid"
+              colorScheme="red"
+              my={5}
+              w="100%"
+            >
+              OKKK
+            </Button>
+          )}
         </Flex>
 
         <IconButton
