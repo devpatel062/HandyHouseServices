@@ -26,10 +26,10 @@ function App() {
       .get("https://handy-house-services-backend.vercel.app/api/user", { withCredentials: true })
       .then((response) => setUser(response.data))
       .catch(() => setUser(null))
-  }, [])
+  }, [user])
   return (
     <>
-      {/* <UserContext.Provider value = {{state, dispatch}}> */}
+      <UserContext.Provider value = {{ user, setUser}}>
         <Navbar className="w-full bg-white shadow-md z-100" user={user} />
         <div className="pt-16"> {/* Adjust the padding-top value according to the navbar height */}
           <Routes>
@@ -42,7 +42,7 @@ function App() {
           </Routes>
 
         </div>
-      {/* </UserContext.Provider> */}
+      </UserContext.Provider>
     </>
   )
 }

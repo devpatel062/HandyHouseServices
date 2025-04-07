@@ -9,11 +9,11 @@ import {
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import { Link } from "react-router-dom";
 import axios from "axios";
-// import { UserContext } from "../../App";
+import { UserContext } from "../../App";
 
-// const { state, dispatch } = useContext(UserContext);
 
 export const Navbar = ({ user }) => {
+  const { user, setUser } = useContext(UserContext);
   const { colorMode, toggleColorMode } = useColorMode();
   const isDark = colorMode === "dark";
   const [display, changeDisplay] = useState("none");
@@ -34,17 +34,17 @@ export const Navbar = ({ user }) => {
   };
 
   const decision = () => {
-    // if (state) {
-    //   <Button
-    //     onClick={handleLogout}
-    //     variant="solid"
-    //     colorScheme="red"
-    //     my={5}
-    //     w="100%"
-    //   >
-    //     Logout
-    //   </Button>;
-    // }
+    if (user) {
+      <Button
+        onClick={handleLogout}
+        variant="solid"
+        colorScheme="red"
+        my={5}
+        w="100%"
+      >
+        Logout
+      </Button>;
+    }
   };
 
   return (
