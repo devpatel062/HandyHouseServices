@@ -66,15 +66,7 @@ export const Navbar = () => {
               Logout
             </Button>
           ) : (
-            <Button
-              onClick={handleLogout}
-              variant="solid"
-              colorScheme="red"
-              my={5}
-              w="100%"
-            >
-              OKKK
-            </Button>
+            <></>
           )}
         </Flex>
 
@@ -144,15 +136,7 @@ export const Navbar = () => {
               Logout
             </Button>
           ) : (
-            <Button
-              onClick={handleLogout}
-              variant="solid"
-              colorScheme="red"
-              my={5}
-              w="100%"
-            >
-              OKKK
-            </Button>
+            <></>
           )}
         </Flex>
       </Flex>
