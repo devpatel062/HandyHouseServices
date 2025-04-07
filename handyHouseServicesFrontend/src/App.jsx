@@ -26,7 +26,7 @@ function App() {
       .get("https://handy-house-services-backend.vercel.app/api/user", { withCredentials: true })
       .then((response) => setUser(response.data))
       .catch(() => setUser(null))
-  }, [user])
+  }, [])
   return (
     <>
       <UserContext.Provider value = {{ user, setUser}}>
