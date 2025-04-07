@@ -19,6 +19,7 @@ export const UserContext = createContext();
 
 function App() {
   const [user, setUser] = useState(null)
+  const [loading, setLoading] = useState(true);
   // const [state, dispatch] = useReducer(reducer, initialState)
 
   useEffect(() => {
@@ -26,7 +27,11 @@ function App() {
       .get("https://handy-house-services-backend.vercel.app/api/user", { withCredentials: true })
       .then((response) => setUser(response.data))
       .catch(() => setUser(null))
-  }, [])
+      .finally(() => setLoading(false));
+  }, []);
+
+  if (loading) return <div>Loading...</div>;
+
   return (
     <>
       <UserContext.Provider value = {{ user, setUser}}>
