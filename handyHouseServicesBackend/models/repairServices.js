@@ -46,4 +46,4 @@ const repairServicesschema = new mongoose.Schema({
     }
 });
 
-module.exports = mongoose.model("repairServices",repairServicesschema);
+module.exports = mongoose.model("complains",repairServicesschema);

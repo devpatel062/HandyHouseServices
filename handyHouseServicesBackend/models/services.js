@@ -27,4 +27,4 @@ const services = new mongoose.Schema({
     },
 })
 
-module.exports = mongoose.model("services", services);
+module.exports = mongoose.model("repairservices", services);
