@@ -41,3 +41,5 @@ const providerSchema = new mongoose.Schema({
         default: false,
     },
     });
+
+    module.exports = mongoose.model('serviceprovider', providerSchema);
