@@ -33,7 +33,7 @@ const providerSchema = new mongoose.Schema({
         trim: true,
     },
     rating: {
-        type: Number,
+        type: Double,
         default: 0,
     },
     verified: {
