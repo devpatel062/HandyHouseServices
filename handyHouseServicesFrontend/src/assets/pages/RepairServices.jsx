@@ -13,6 +13,8 @@ export const RepairServices = () => {
     fetch('https://handy-house-services-backend.vercel.app/api/services')
       .then(res => res.json())
       .then(data => setServices(data));
+
+      console.log(services)
   }
   , []);
 
