@@ -15,6 +15,12 @@ app.use(cookieParser());
 // const userRoutes = require("./routes/loginUserroute");
 // app.use("/api/users", userRoutes);
 
+const servicesRoute = require("./routes/servicesRoute");
+app.use("/api", servicesRoute);
+
+const getServiceProviderRoute = require("./routes/getServiceProviderroute");
+app.use("/api", getServiceProviderRoute);
+
 const signupuserRoute = require("./routes/signupuserroute");
 app.use("/api", signupuserRoute);
 
