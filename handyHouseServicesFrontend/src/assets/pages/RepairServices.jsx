@@ -1,6 +1,6 @@
 // import React from 'react'
 import { Card, Image, Stack, Text, Heading, Divider, ButtonGroup, Button, SimpleGrid, CardBody, CardFooter } from '@chakra-ui/react'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import ServiceModal from './serviceproviderModal'
 import Footer from './Footer'
 
