@@ -11,7 +11,7 @@ const providerSchema = new mongoose.Schema({
         required: true,
         trim: true,
     },
-    contactNumber: {
+    phone: {
         type: String,
         required: true,
         trim: true,
@@ -22,7 +22,7 @@ const providerSchema = new mongoose.Schema({
         unique: true,
         trim: true,
     },
-    address: {
+    location: {
         type: String,
         required: true,
         trim: true,
