@@ -17,7 +17,7 @@ export const RepairServices = () => {
       console.log(services)
   }
   , []);
-  
+
   const handleBookNow = (service) => {
     setSelectedService(service);
     setshowModal(true);
@@ -32,7 +32,7 @@ export const RepairServices = () => {
       ) : (
         <SimpleGrid columns={[1, 2, 3]} spacing={10} className="mx-10">
           {services.map((service) => (
-            <Card key={idx} maxW='sm' className="w-full">
+            <Card  maxW='sm' className="w-full">
               <CardBody>
                 <Image
                   src={service.image}
