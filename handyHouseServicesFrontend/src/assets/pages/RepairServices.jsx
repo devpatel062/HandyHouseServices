@@ -4,7 +4,7 @@ import { useState } from 'react';
 import ServiceModal from './serviceproviderModal'
 import Footer from './Footer'
 
-export const CleaningServices = () => {
+export const RepairServices = () => {
   const [services, setServices] = useState([]);
   const [showModal, setshowModal] = useState(false);
   const [selectedService, setSelectedService] = useState(null);
@@ -63,4 +63,4 @@ export const CleaningServices = () => {
 }
 
 
-export default CleaningServices;
+export default RepairServices;
