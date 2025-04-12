@@ -17,7 +17,7 @@ export const RepairServices = () => {
       console.log(services)
   }
   , []);
-
+  
   const handleBookNow = (service) => {
     setSelectedService(service);
     setshowModal(true);

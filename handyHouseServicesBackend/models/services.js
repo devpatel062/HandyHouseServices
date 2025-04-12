@@ -20,7 +20,7 @@ const services = new mongoose.Schema({
         unique: false
     },
     price: {
-        type: Number,
+        type: String,
         required: true,
         trim: true,
         unique: false
