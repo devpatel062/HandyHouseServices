@@ -1,108 +1,62 @@
 // import React from 'react'
 import { Card, Image, Stack, Text, Heading, Divider, ButtonGroup, Button, SimpleGrid, CardBody, CardFooter } from '@chakra-ui/react'
 import { useState } from 'react';
-import Modal from './Modal'
+import ServiceModal from './serviceproviderModal'
 import Footer from './Footer'
 
 export const CleaningServices = () => {
-
+  const [services, setServices] = useState([]);
   const [showModal, setshowModal] = useState(false);
+  const [selectedService, setSelectedService] = useState(null);
+
+  useEffect(() => {
+    fetch('https://handy-house-services-backend.vercel.app/api/services')
+      .then(res => res.json())
+      .then(data => setServices(data));
+  }
+  , []);
+
+  const handleBookNow = (service) => {
+    setSelectedService(service);
+    setshowModal(true);
+  };
+
   return (
     <div className="relative top-20">
-      <SimpleGrid className=" md:flex column" spacing={4} templateColumns='repeat(auto-fill, minmax(400px, 1fr))'>
-        
-        <Card maxW='sm'>
-          <CardBody>
-            <Image
-              src='.\src\assets\Images\babysitter.png'
-              alt='Green double couch with wooden legs'
-              borderRadius='lg'
-            />
-            <Stack mt='6' spacing='3'>
-              <Heading size='md'>Contact BabySitting</Heading>
-              <Text>
-                Relax and enjoy your night out!  Our Company connects you with caring, qualified babysitters who will
-                keep your kids safe, happy, and entertained.  Call today for a fun-filled evening!.
-              </Text>
-              <Text color='blue.600' fontSize='2xl'>
-                $10
-              </Text>
-            </Stack>
-          </CardBody>
-          <Divider />
-          <CardFooter>
-            <ButtonGroup spacing='2'>
-              <Button variant='ghost' colorScheme='blue'>
-                Reviews
-              </Button>
-              <Button onClick={() => setshowModal(true)} variant='solid' colorScheme='blue'>
-                Book Service
-              </Button>
-            </ButtonGroup>
-          </CardFooter>
-        </Card>
-        <Card maxW='sm'>
-          <CardBody>
-            <Image
-              src='.\src\assets\Images\gardener.webp'
-              alt='Green double couch with wooden legs'
-              borderRadius='lg'
-            />
-            <Stack mt='6' spacing='3'>
-              <Heading size='md'>Contact Gardener</Heading>
-              <Text>
-                Lawn care, weeding, planting, and more! We offer a full range of gardening services
-                to bring your vision to life.
-              </Text>
-              <Text color='blue.600' fontSize='2xl'>
-                $10
-              </Text>
-            </Stack>
-          </CardBody>
-          <Divider />
-          <CardFooter>
-            <ButtonGroup spacing='2'>
-              <Button variant='ghost' colorScheme='blue'>
-                Reviews
-              </Button>
-              <Button onClick={() => setshowModal(true)} variant='solid' colorScheme='blue'>
-                Book Service
-              </Button>
-            </ButtonGroup>
-          </CardFooter>
-        </Card>
-        <Card maxW='sm'>
-          <CardBody>
-            <Image
-              src='.\src\assets\Images\petsitter.jpg'
-              alt='Green double couch with wooden legs'
-              borderRadius='lg'
-            />
-            <Stack mt='6' spacing='3'>
-              <Heading size='md'>Contact PetSitter</Heading>
-              <Text>
-                Peace of mind for you, playtime for your pet! Professional pet sitting services.
-                Spoil your furry friend with TLC! In-home pet sitting with cuddles guaranteed.
-              </Text>
-              <Text color='blue.600' fontSize='2xl'>
-                $10
-              </Text>
-            </Stack>
-          </CardBody>
-          <Divider />
-          <CardFooter>
-            <ButtonGroup spacing='2'>
-              <Button variant='ghost' colorScheme='blue'>
-                Reviews
-              </Button>
-              <Button onClick={() => setshowModal(true)} variant='solid' colorScheme='blue'>
-                Book Service
-              </Button>
-            </ButtonGroup>
-          </CardFooter>
-        </Card>
-        {showModal && <Modal onClose={() => setshowModal(false)} />}
-      </SimpleGrid>
+      {services.length === 0 ? (
+        <div className="flex justify-center items-center h-screen">
+          <p className="text-2xl font-bold">Loading...</p>
+        </div>
+      ) : (
+        <SimpleGrid columns={[1, 2, 3]} spacing={10} className="mx-10">
+          {services.map((service) => (
+            <Card key={idx} maxW='sm' className="w-full">
+              <CardBody>
+                <Image
+                  src={service.image}
+                  alt={service.name}
+                  borderRadius='lg'
+                />
+                <Stack mt='6' spacing='3'>
+                  <Heading size='md'>{service.service}</Heading>
+                  <Text>
+                    {service.description}
+                  </Text>
+                </Stack>
+              </CardBody>
+              <Divider />
+              <CardFooter>
+                <ButtonGroup spacing='2'>
+                  <Button variant='solid' colorScheme='orange' onClick={() => handleBookNow(service)}>
+                    Book Now
+                  </Button>
+                </ButtonGroup>
+              </CardFooter>
+            </Card>
+          ))}
+        </SimpleGrid>
+      )}
+      {showModal && <ServiceModal serviceType={selectedService.service} onClose={() => setshowModal(false)} />}
       <Footer />
     </div>
   )
