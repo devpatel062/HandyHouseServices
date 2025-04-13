@@ -5,7 +5,7 @@ const ProvidersModal = ({ serviceType, onClose }) => {
 
   useEffect(() => {
     console.log(serviceType)
-    fetch(`https://handy-house-services-backend.vercel.app/api/providers`)
+    fetch('https://handy-house-services-backend.vercel.app/api/providers')
       .then(res => res.json())
       .then(data => setProviders(data));
       console.log(providers)
