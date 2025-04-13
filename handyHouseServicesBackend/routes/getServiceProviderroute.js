@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 
 // GET /api/providers?serviceType=Plumber
 router.get('/providers', async (req, res) => {
+  console.log("Providers route hit", req.query.serviceType)
   try {
     const { serviceType } = req.query;
     const providers = await Provider.find({ serviceType: serviceType });
