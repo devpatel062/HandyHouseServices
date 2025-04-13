@@ -7,6 +7,7 @@ const ProvidersModal = ({ serviceType, onClose }) => {
     fetch(`https://handy-house-services-backend.vercel.app/api/providers?serviceType=${serviceType}`)
       .then(res => res.json())
       .then(data => setProviders(data));
+      console.log(providers)
   }, [serviceType]);
 
   return (
