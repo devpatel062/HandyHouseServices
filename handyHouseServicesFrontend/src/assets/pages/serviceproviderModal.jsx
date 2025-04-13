@@ -6,7 +6,7 @@ const ProvidersModal = ({ serviceType, onClose }) => {
   useEffect(() => {
     console.log(serviceType)
     fetch('https://handy-house-services-backend.vercel.app/api/providers', {
-      method: 'POST',
+      method: 'GET',
       headers: {
         'Content-Type': 'application/json',
       },
