@@ -22,7 +22,7 @@ const getServiceProviderRoute = require("./routes/getServiceProviderroute");
 app.use("/api", getServiceProviderRoute);
 
 const signupuserRoute = require("./routes/signupuserroute");
-app.use("/api", signupuserRoute);
+app.use("/api", signupuserRoute)
 
 const loginUserRoute = require("./routes/loginUserroute")
 app.use("/api",loginUserRoute)
