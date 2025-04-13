@@ -50,8 +50,8 @@ export const SimpleCard = () => {
         isClosable: true,
       });
       //   dispatch({ type: "USER", payload: true });
-      setUser(email);
-      navigate("/homePage");
+      setUser(formData.email);
+      navigate("/");
     } catch (error) {
       if (error.response) {
         // If the server responded with an error status

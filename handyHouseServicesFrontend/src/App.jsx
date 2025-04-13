@@ -22,13 +22,13 @@ function App() {
   const [loading, setLoading] = useState(true);
   // const [state, dispatch] = useReducer(reducer, initialState)
 
-  useEffect(() => {
-    axios
-      .get("https://handy-house-services-backend.vercel.app/api/user", { withCredentials: true })
-      .then((response) => setUser(response.data))
-      .catch(() => setUser(null))
-      .finally(() => setLoading(false));
-  }, []);
+  // useEffect(() => {
+  //   axios
+  //     .get("https://handy-house-services-backend.vercel.app/api/user", { withCredentials: true })
+  //     .then((response) => setUser(response.data))
+  //     .catch(() => setUser(null))
+  //     .finally(() => setLoading(false));
+  // }, []);
 
   if (loading) return <div>Loading...</div>;
 
