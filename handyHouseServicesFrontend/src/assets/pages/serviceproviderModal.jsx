@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import axios from 'axios'
 
 const ProvidersModal = ({ serviceType, onClose }) => {
   const [providers, setProviders] = useState([]);
