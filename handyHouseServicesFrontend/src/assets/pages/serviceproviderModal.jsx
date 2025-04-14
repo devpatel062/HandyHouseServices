@@ -1,15 +1,21 @@
-import { useEffect, useState } from 'react';
-import axios from 'axios'
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 const ProvidersModal = ({ serviceType, onClose }) => {
   const [providers, setProviders] = useState([]);
 
   useEffect(() => {
-    console.log(serviceType)
-    axios.get('https://handy-house-services-backend.vercel.app/api/providers?serviceType=${serviceType}',)
-      .then(res => res.json())
-      .then(data => setProviders(data));
-      console.log(providers)
+    console.log(serviceType);
+    axios
+      .get(
+        `https://handy-house-services-backend.vercel.app/api/providers?serviceType=${serviceType}`
+      )
+      .then((res) => {
+        setProviders(res.data); // axios already parses JSON for you
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   }, [serviceType]);
 
   return (
