@@ -1,12 +1,17 @@
-// routes/provider.js or similar
 const express = require('express');
 const router = express.Router();
-const Provider = require('../models/provider'); // Adjust the path as necessary
+const Provider = require('../models/provider');
 const mongoose = require('mongoose');
 
 // GET /api/providers?serviceType=Plumber
 router.get('/providers', async (req, res) => {
-  console.log("Providers route hit", req.query.serviceType)
+  const {serviceType} = req.body;
+  console.log("Providers route hit", serviceType);
+  
+  if (!serviceType) {
+    return res.status(400).json({ message: 'Service type is required' });
+  }
+  
   try {
     const { serviceType } = req.query;
     const providers = await Provider.find({

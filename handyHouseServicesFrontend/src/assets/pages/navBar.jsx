@@ -34,7 +34,6 @@ export const Navbar = () => {
 
   return (
     <Flex>
-      <>dsdsdsadsad</>
       <Flex position="absolute" top="1rem" right="1rem" align="center">
         <Flex display={["none", "none", "flex", "flex"]}>
           <Link to={user ? "/" : "#"} aria-label="Home">
