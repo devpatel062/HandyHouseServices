@@ -8,7 +8,7 @@ const ProvidersModal = ({ serviceType, onClose }) => {
     console.log(serviceType);
     axios
       .post(
-        `https://handy-house-services-backend.vercel.app/api/providers`,{
+        "https://handy-house-services-backend.vercel.app/api/providers",{
           serviceType: serviceType,
           })
       .then((res) => {

@@ -4,10 +4,10 @@ const Provider = require('../models/provider');
 const mongoose = require('mongoose');
 
 // GET /api/providers?serviceType=Plumber
-router.get('/providers', async (req, res) => {
+router.post('/providers', async (req, res) => {
   const {serviceType} = req.body;
   console.log("Providers route hit", serviceType);
-  
+
   if (!serviceType) {
     return res.status(400).json({ message: 'Service type is required' });
   }
