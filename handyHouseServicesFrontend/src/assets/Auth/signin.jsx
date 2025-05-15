@@ -97,7 +97,7 @@ export const SimpleCard = () => {
             <FormControl id="password">
               <FormLabel>Password</FormLabel>
               <InputGroup>
-                <Inputfo
+                <Inputform
                   type={showPassword ? "text" : "password"}
                   name="password"
                   onChange={handleChange}
