@@ -4,7 +4,7 @@ const Provider = require('../models/provider');
 
 // GET /api/providers?serviceType=Electrician
 router.get('/providers', async (req, res) => {
-  const serviceType = req.query.serviceType;
+  const serviceType = req.serviceType;
   console.log("Providers route hit:", serviceType);
 
   if (!serviceType) {
