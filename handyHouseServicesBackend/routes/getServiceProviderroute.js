@@ -5,8 +5,8 @@ const mongoose = require('mongoose');
 
 // GET /api/providers?serviceType=Plumber
 router.post('/providers', async (req, res) => {
-  const {serviceType} = req.body;
-  console.log("Providers route hit", serviceType);
+  const {service} = req.body;
+  console.log("Providers route hit", service);
 
   if (!serviceType) {
     return res.status(400).json({ message: 'Service type is required' });
