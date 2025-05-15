@@ -4,7 +4,6 @@ const Provider = require('../models/provider');
 
 // GET /api/providers?serviceType=Electrician
 router.get('/providers', async (req, res) => {
-  console.log("Query received:", req.query);
   const serviceType = req.query.serviceType;
   console.log("Providers route hit:", serviceType);
 
@@ -14,7 +13,7 @@ router.get('/providers', async (req, res) => {
 
   try {
     const providers = await Provider.find({
-      serviceType: { $regex: /Electrician/i } 
+       serviceType   
     });
 
     res.status(200).json(providers);
