@@ -9,7 +9,7 @@ const ProvidersModal = ({ serviceType, onClose }) => {
     console.log("before " + serviceType);
   
     axios
-      .get("https://handy-house-backend.onrender.com/api/providers", {
+      .get("https://handyhouseservicesbackend.onrender.com/api/providers", {
         params: { serviceType },
       })
       .then((response) => {
