@@ -6,7 +6,7 @@ const ProvidersModal = ({ serviceType, onClose }) => {
 
   useEffect(() => {
     if (!serviceType) return;
-    console.log(serviceType);
+    console.log("before"+serviceType);
     axios
       .get("https://handy-house-services-backend.vercel.app/api/providers", {
         params: { serviceType },
