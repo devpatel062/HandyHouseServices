@@ -8,12 +8,12 @@ router.post('/providers', async (req, res) => {
   const {service} = req.body;
   console.log("Providers route hit", service);
 
-  if (!serviceType) {
+  if (!service) {
     return res.status(400).json({ message: 'Service type is required' });
   }
   
   try {
-    const { serviceType } = req.query;
+    
     const providers = await Provider.find({
       serviceType: { $regex: new RegExp(serviceType, 'i') }
     });
