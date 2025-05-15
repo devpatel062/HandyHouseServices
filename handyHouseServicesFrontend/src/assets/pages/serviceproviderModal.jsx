@@ -6,15 +6,14 @@ const ProvidersModal = ({ serviceType, onClose }) => {
 
   useEffect(() => {
     if (!serviceType) return;
-  
+    console.log(serviceType);
     axios
-      .get('https://handy-house-services-backend.vercel.app/api/providers', {
-        params: { serviceType }
+      .get("https://handy-house-services-backend.vercel.app/api/providers", {
+        params: { serviceType },
       })
-      .then((res) => setProviders(res.data))
+      .then(console.log(res.data), (res) => setProviders(res.data))
       .catch((err) => console.error(err));
   }, [serviceType]);
-  
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
