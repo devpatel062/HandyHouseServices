@@ -12,9 +12,10 @@ router.get('/providers', async (req, res) => {
   }
 
   try {
-    const providers = await Provider.find({
-       serviceType   
-    });
+    const providers = await Provider.find({ serviceType: serviceType });
+    if (!providers || providers.length === 0) {
+      return res.status(404).json({ message: 'No providers found for this service type' });
+    }
 
     res.status(200).json(providers);
   } catch (error) {
