@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 
 // GET /api/providers?service=Plumber
 router.get('/providers', async (req, res) => {
-  const {service} = req.query.serviceType;
+  const service = req.query.serviceType;
   console.log("Providers route hit", service);
 
   if (!service) {

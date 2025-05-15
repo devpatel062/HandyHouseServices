@@ -8,7 +8,7 @@ const ProvidersModal = ({ serviceType, onClose }) => {
     console.log(serviceType);
     axios
       .get(
-        "https://handy-house-services-backend.vercel.app/api/providers?serviceType")
+        "https://handy-house-services-backend.vercel.app/api/providers?{serviceType}")
       .then((res) => {
         console.log(res.data);
         setProviders(res.data); // axios already parses JSON for you
