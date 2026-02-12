@@ -40,6 +40,13 @@ const providerSchema = new mongoose.Schema({
         type: Boolean,
         default: false,
     },
+    price: {
+            type: Number,
+            required: true,
+            trim: true,
+            unique: false
+    },
+    
     });
 
     module.exports = mongoose.model('serviceprovider', providerSchema);

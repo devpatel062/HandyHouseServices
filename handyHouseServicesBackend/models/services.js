@@ -19,12 +19,6 @@ const services = new mongoose.Schema({
         trim: true,
         unique: false
     },
-    price: {
-        type: String,
-        required: true,
-        trim: true,
-        unique: false
-    },
 })
 
 module.exports = mongoose.model("repairservices", services);

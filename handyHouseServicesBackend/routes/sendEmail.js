@@ -1,4 +1,4 @@
-import { createTransport } from "nodemailer";
+const { createTransport } = require("nodemailer");
 
 const sendConfirmationEmail = (email, booking) => {
     if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
@@ -30,13 +30,36 @@ const sendConfirmationEmail = (email, booking) => {
         from: process.env.EMAIL_USER,
         to: email,
         subject: "Repair Service Booking Confirmation",
-        text: `Hello ${booking.fullname},\n\nYour repair service booking is confirmed!\nDetails:\nProblem: ${booking.problem}\nDate: ${booking.date}\n\nThank you!`
+        text: `Hello ${booking.fullname},
+
+Your repair service booking is confirmed!
+
+Booking Details:
+------------------------------------------------------
+Customer Name:      ${booking.fullname}
+Contact Number:     ${booking.contact || "Not Provided"}
+Email:              ${booking.email}
+Service Address:    ${booking.address}
+Issue Reported:     ${booking.problem}
+Date:               ${booking.date}
+Service Provider:   ${booking.serviceProvidername || "Not Assigned"}
+Price:              $${booking.price || "To be discussed"}
+------------------------------------------------------
+
+Thank you for choosing Handy House Services!`,
     };
 
-    transporter.sendMail(mailOptions, (error, info) => {
-        if (error) console.log("Email Error:", error);
-        else console.log("Email sent:", info.response);
+    return new Promise((resolve, reject) => {
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                console.log("Email Error:", error);
+                reject(error);
+            } else {
+                console.log("Email sent:", info.response);
+                resolve(info);
+            }
+        });
     });
 };
 
-export default sendConfirmationEmail
+module.exports = sendConfirmationEmail;

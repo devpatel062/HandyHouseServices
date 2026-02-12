@@ -13,17 +13,20 @@ const validateemail = (email) => {
 router.post("/signup", async (req, res) => {
   try {
     const { firstname, lastname, email, password } = req.body;
+    console.log("Signup Request Received:", { firstname, lastname, email }); // Log input
 
     if (validateemail(email)) {
       
       const existingUser = await User.findOne({ email });
       
       if (existingUser) {
+        console.log("User already exists:", email);
         return res.status(400).json({ message: "User already exists" });
       }
       
       const newUser = new User({ firstname, lastname, email, password });
       await newUser.save();
+      console.log("User saved successfully:", newUser._id);
       res
         .status(201)
         .json({
@@ -31,10 +34,12 @@ router.post("/signup", async (req, res) => {
           user: { firstname, lastname, email },
         });
     } else {
-      res.status(500).json({ message: "This is not a valid email" });
+      console.log("Invalid Email Format:", email);
+      res.status(400).json({ message: "This is not a valid email" });
     }
   } catch (error) {
-    res.status(500).json({ message: "Server error", error });
+    console.error("Signup Error:", error);
+    res.status(500).json({ message: "Server error", error: error.message });
   }
 });
 

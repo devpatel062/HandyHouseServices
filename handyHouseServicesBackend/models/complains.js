@@ -43,7 +43,43 @@ const repairServicesschema = new mongoose.Schema({
         required : true,
         trim : true,
         unique : false
-    }
+    },
+    serviceProvidername :{
+        type : String,
+        required : false,
+        trim : true,
+        unique : false
+    },
+    serviceProvideremail :{
+        type : String,
+        required : false,
+        trim : true,
+        unique : false
+    },
+    serviceProvidernumber :{
+        type : String,
+        required : false,
+        trim : true,
+        unique : false
+    },
+    serviceProviderrating :{
+        type : Number,
+        required : false,
+        trim : true,
+        unique : false
+    },
+    status: {
+        type: String,
+        enum: ['Pending', 'In Progress', 'Completed', 'Cancelled'],
+        default: 'Pending',
+        required: true
+    },
+    price : {
+        type: Number,
+        required: true,
+        default: 0
+    },
+    
 });
 
 module.exports = mongoose.model("complains",repairServicesschema);

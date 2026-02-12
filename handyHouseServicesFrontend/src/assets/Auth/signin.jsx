@@ -23,7 +23,7 @@ import { UserContext } from "../../App";
 export const SimpleCard = () => {
   const toast = useToast();
   const [showPassword, setShowPassword] = useState(false);
-  const { user, setUser } = useContext(UserContext);
+  const { /* user, */ setUser } = useContext(UserContext);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
@@ -38,7 +38,7 @@ export const SimpleCard = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "https://handy-house-services-backend.vercel.app/api/signin",
+        `${import.meta.env.VITE_API_BASE_URL}/api/signin`,
         formData,
         { withCredentials: true }
       );

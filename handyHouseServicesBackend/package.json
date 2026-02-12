@@ -12,18 +12,24 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@google/genai": "^1.11.0",
+    "axios": "^1.11.0",
     "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
+    "google-auth-library": "^10.1.0",
+    "gopd": "^1.2.0",
     "handyhouse-services-backend": "file:",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.9.5",
-    "nodemailer": "^6.10.0"
+    "nodemailer": "^7.0.9",
+    "stripe": "^18.2.1"
   },
   "devDependencies": {
-    "nodemon": "^3.1.9"
+    "@ljharb/tsconfig": "^0.3.2",
+    "nodemon": "^3.1.10"
   }
 }

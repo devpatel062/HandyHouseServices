@@ -10,7 +10,7 @@ const authenticateUser = (req, res, next) => {
     if (!token) return res.status(401).json({ message: "Unauthorized" });
   
     try {
-      const decoded = jwt.verify(token, SECRET_KEY); // Verify token
+      const decoded = jwt.verify(token, SECRET_KEY); // Verify token + retrieve data
       req.user = decoded; // Store user info
       next();
     } catch (error) {

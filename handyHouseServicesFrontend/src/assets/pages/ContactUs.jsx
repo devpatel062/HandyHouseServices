@@ -17,19 +17,19 @@ import {
     useColorModeValue,
     VStack,
 } from '@chakra-ui/react';
-// import { Bluetooth } from 'lucide-react';
-//   import React from 'react';
 import { BsGithub, BsLinkedin, BsPerson, BsTwitter } from 'react-icons/bs';
 import { MdEmail } from 'react-icons/md';
+
+const accentGradient = 'linear(to-r, blue.600, blue.400)';
 
 
 export default function ContactUs () {
     const { hasCopied, onCopy } = useClipboard('example@example.com');
     return (
         <Flex
-            // bg={useColorModeValue('gray.100', 'gray.900')}
             align="center"
             justify="center"
+            bgGradient="linear(to-br, blue.50, white)"
             // css={{
             //     backgroundImage: useColorModeValue(CONFETTI_LIGHT, CONFETTI_DARK),
             //     backgroundAttachment: 'fixed',
@@ -42,10 +42,10 @@ export default function ContactUs () {
                 <Box>
                     <VStack spacing={{ base: 4, md: 8, lg: 20 }}>
                         <Heading
-                            fontSize={{
-                                base: '5xl',
-                                md: '5xl',
-                            }}>
+                            fontSize={{ base: '5xl', md: '5xl' }}
+                            bgClip="text"
+                            bgGradient={accentGradient}
+                        >
                             Get in Touch
                         </Heading>
 
@@ -56,21 +56,15 @@ export default function ContactUs () {
                                 align="center"
                                 justify="space-around"
                                 direction={{ base: 'row', md: 'column' }}>
-                                <Tooltip
-                                    label={hasCopied ? 'Email Copied!' : 'Copy Email'}
-                                    closeOnClick={false}
-                                    hasArrow>
+                                <Tooltip label={hasCopied ? 'Email Copied!' : 'Copy Email'} closeOnClick={false} hasArrow>
                                     <IconButton
                                         aria-label="email"
-                                        color="blue.300"
+                                        color="blue.600"
                                         variant="ghost"
                                         size="lg"
                                         fontSize="3xl"
                                         icon={<MdEmail />}
-                                        _hover={{
-                                            bg: 'blue.500',
-                                            color: useColorModeValue('white', 'gray.700'),
-                                        }}
+                                        _hover={{ bg: 'blue.50', color: 'blue.700' }}
                                         onClick={onCopy}
                                         isRound
                                     />
@@ -81,13 +75,10 @@ export default function ContactUs () {
                                         aria-label="github"
                                         variant="ghost"
                                         size="lg"
-                                        color="blue.300"
+                                        color="blue.600"
                                         fontSize="3xl"
                                         icon={<BsGithub />}
-                                        _hover={{
-                                            bg: 'blue.500',
-                                            color: useColorModeValue('white', 'gray.700'),
-                                        }}
+                                        _hover={{ bg: 'blue.50', color: 'blue.700' }}
                                         isRound
                                     />
                                 </Link>
@@ -96,13 +87,10 @@ export default function ContactUs () {
                                     <IconButton
                                         aria-label="twitter"
                                         variant="ghost"
-                                        color="blue.300"
+                                        color="blue.600"
                                         size="lg"
                                         icon={<BsTwitter size="28px" />}
-                                        _hover={{
-                                            bg: 'blue.500',
-                                            color: useColorModeValue('white', 'gray.700'),
-                                        }}
+                                        _hover={{ bg: 'blue.50', color: 'blue.700' }}
                                         isRound
                                     />
                                 </Link>
@@ -111,24 +99,24 @@ export default function ContactUs () {
                                     <IconButton
                                         aria-label="linkedin"
                                         variant="ghost"
-                                        color="blue.300"
+                                        color="blue.600"
                                         size="lg"
                                         icon={<BsLinkedin size="28px" />}
-                                        _hover={{
-                                            bg: 'blue.500',
-                                            color: useColorModeValue('white', 'gray.700'),
-                                        }}
+                                        _hover={{ bg: 'blue.50', color: 'blue.700' }}
                                         isRound
                                     />
                                 </Link>
                             </Stack>
 
                             <Box
-                                bg={useColorModeValue('gray.100', 'gray.700')}
+                                bg={'white'}
                                 borderRadius="lg"
                                 p={8}
-                                color={useColorModeValue('gray.700', 'whiteAlpha.900')}
-                                shadow="base">
+                                color={'gray.700'}
+                                shadow="base"
+                                borderWidth="1px"
+                                borderColor="blue.50"
+                            >
                                 <VStack spacing={5}>
                                     <FormControl isRequired>
                                         <FormLabel>Name</FormLabel>
@@ -137,7 +125,7 @@ export default function ContactUs () {
                                             <InputLeftElement>
                                                 <BsPerson />
                                             </InputLeftElement>
-                                            <Input type="text" name="name" placeholder="Your Name" />
+                                            <Input type="text" name="name" placeholder="Your Name" focusBorderColor="blue.400" />
                                         </InputGroup>
                                     </FormControl>
 
@@ -152,6 +140,7 @@ export default function ContactUs () {
                                                 type="email"
                                                 name="email"
                                                 placeholder="Your Email"
+                                                focusBorderColor="blue.400"
                                             />
                                         </InputGroup>
                                     </FormControl>
@@ -164,6 +153,7 @@ export default function ContactUs () {
                                             placeholder="Your Message"
                                             rows={6}
                                             resize="none"
+                                            focusBorderColor="blue.400"
                                         />
                                     </FormControl>
 

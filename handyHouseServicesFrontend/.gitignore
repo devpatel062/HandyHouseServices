@@ -7,10 +7,20 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
+# Dependencies - The **/ ensures it catches node_modules in ANY subfolder
+**/node_modules/
+
+# Build outputs
 dist
 dist-ssr
+
+# Local env files
 *.local
+.env
+.env.*
+!.env.example
+**/google-oauth.json   <-- Added for backend security
+**/package-lock.json   <-- Optional, but can reduce noise if versions drift
 
 # Editor directories and files
 .vscode/*

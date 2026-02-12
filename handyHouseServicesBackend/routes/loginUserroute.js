@@ -25,14 +25,15 @@ router.post("/signin", async (req, res) => {
     }
 
     const token = jwt.sign({ id: user._id, email: user.email }, SECRET_KEY, { expiresIn: '1h' });
+    console.log("Token generated:", token);
     // Set the token in an HTTP-only cookie
     res
       .status(200)
       .cookie("token", token, {
-        httpOnly: true, // Prevents JavaScript access
-        secure: process.env.NODE_ENV === "production", // Use secure cookies in production (HTTPS)
-        sameSite: "None",
-        maxAge: 60 * 60 * 1000, // 1 hour
+        httpOnly: true,
+        secure: false,         // ❗ Must be false for localhost
+        sameSite: "Lax",       // Acceptable for dev, but not for cross-origin production
+        maxAge: 60 * 60 * 1000,
       })
       .json({ message: "Login successful" });
   } catch (err) {

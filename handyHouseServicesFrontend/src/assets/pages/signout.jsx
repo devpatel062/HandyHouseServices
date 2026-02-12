@@ -5,7 +5,7 @@ export const handleLogout = async () => {
 
     const {state, dispatch} = useContext(UserContext)
     try {
-      await axios.post("https://handy-house-services-backend.vercel.app/api/logout", {}, { withCredentials: true });
+      await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/logout`, {}, { withCredentials: true });
       setUser(null);
       dispatch({type:UserContext, payload:false})
       navigate('/signin');
