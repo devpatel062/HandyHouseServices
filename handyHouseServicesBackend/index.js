@@ -6,12 +6,21 @@ require("dotenv").config();
 
 const app = express();
 
+const allowed = [
+  "http://localhost:5173",
+  "https://handy-house-services-frontend.vercel.app"
+];
+
 const corsOptions = {
-  origin: process.env.CLIENT_URL,
+  origin: (origin, cb) => {
+    if (!origin || allowed.includes(origin)) return cb(null, true);
+    return cb(new Error("Not allowed by CORS"));
+  },
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"],
+  allowedHeaders: ["Content-Type", "Authorization"]
 };
+
 
 app.use(cors(corsOptions));
 app.options("*", cors(corsOptions));
