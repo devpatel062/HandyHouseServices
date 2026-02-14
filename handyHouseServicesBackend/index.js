@@ -65,4 +65,11 @@ app.get("/", (req, res) => {
 });
 
 const PORT = process.env.PORT || 5001;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+// Export for Vercel (serverless)
+module.exports = app;
+
+// Only listen when running locally (node index.js)
+if (require.main === module) {
+  app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+}
