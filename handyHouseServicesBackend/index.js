@@ -6,12 +6,27 @@ require("dotenv").config();
 
 const app = express();
 
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://handy-house-services-frontend.vercel.app"
+];
+
 app.use(
   cors({
-    origin: process.env.CLIENT_URL,
+    origin: function (origin, callback) {
+      if (!origin) return callback(null, true); // allow server-to-server / curl
+      if (allowedOrigins.includes(origin)) return callback(null, true);
+      return callback(new Error("Not allowed by CORS: " + origin));
+    },
     credentials: true,
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
+
+// Important for preflight
+app.options("*", cors());
+
 
 // ✅ Stripe webhook MUST get raw body (ONLY for this route)
 app.use("/api/payments/webhook", express.raw({ type: "application/json" }));
