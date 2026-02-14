@@ -31,9 +31,10 @@ router.post("/signin", async (req, res) => {
       .status(200)
       .cookie("token", token, {
         httpOnly: true,
-        secure: false,         // ❗ Must be false for localhost
-        sameSite: "Lax",       // Acceptable for dev, but not for cross-origin production
+        secure: process.env.NODE_ENV === "production", // ❗ Must be false for localhost
+        sameSite: "None",       
         maxAge: 60 * 60 * 1000,
+        path: "/",
       })
       .json({ message: "Login successful" });
   } catch (err) {
