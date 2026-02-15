@@ -11,9 +11,11 @@ const CheckOutButton = ({
   disabled,
   onStart,
   onError,
+  validate,
 }) => {
   const handleCheckout = async () => {
     if (disabled) return;
+    if (validate && !validate()) return; 
 
     try {
       onStart?.();

@@ -75,14 +75,19 @@ function Modal({ serviceTypeProvider, serviceType, onClose }) {
     setFormData((prev) => ({ ...prev, address }));
   };
 
+  const validateForm = () => {
+    if (!formData.fullname || !formData.address || !formData.contact || !formData.email || !formData.serviceType || !formData.problem || !formData.date) {
+      showToast("Please fill all fields.", "error");
+      return false;
+    }
+    return true;
+  };
+
   // ✅ No DB save here. DB save happens in Stripe webhook after payment succeeds.
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!formData.fullname || !formData.address || !formData.contact || !formData.email || !formData.serviceType || !formData.problem || !formData.date) {
-      showToast("Please fill all fields.", "error");
-      return;
-    }
+    if (!validateForm()) return;
 
     setLoading(true);
     // Stripe redirect happens inside CheckOutButton click
@@ -190,6 +195,7 @@ function Modal({ serviceTypeProvider, serviceType, onClose }) {
               <CheckOutButton
                 formData={formData}
                 disabled={loading}
+                validate={validateForm}
                 className="w-full py-4 rounded-xl text-white font-bold shadow-lg shadow-blue-200 transition-transform active:scale-95 flex justify-center items-center"
                 style={{
                   background: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)',
