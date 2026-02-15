@@ -57,10 +57,20 @@ const Chatbot = ({ onClose }) => {
         payload.recommendation ??
         'Sorry, I couldn’t understand that.';
 
-      const recommendedService =
+      let recommendedService =
         payload.recommended_service ??
         payload.recommendedService ??
         null;
+        
+      // Filter out invalid recommendations
+      if (
+        recommendedService && 
+        (recommendedService.toLowerCase().includes('apology') || 
+         recommendedService.toLowerCase().includes('statement') || 
+         recommendedService.toLowerCase().includes('sorry'))
+      ) {
+        recommendedService = null;
+      }
 
       setMessages((prev) => [
         ...prev,
