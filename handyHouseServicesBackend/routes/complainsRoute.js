@@ -1,6 +1,6 @@
 const express = require("express");
 const Booking = require("../models/complains");
-const sendEmail = require("./sendEmail");
+const { sendConfirmationEmail: sendEmail } = require("./sendEmail");
 
 const complains = async (info) => {
     console.log("ok ok")

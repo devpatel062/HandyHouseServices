@@ -3,7 +3,7 @@ const router = express.Router();
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 const Complaint = require("../models/complains");
-const sendConfirmationEmail = require("./sendEmail");
+const { sendConfirmationEmail } = require("./sendEmail");
 
 router.post("/createCheckoutSession", async (req, res) => {
   try {

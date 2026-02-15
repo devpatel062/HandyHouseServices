@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Booking = require("../models/complains");
 const authenticateUser = require("./authenticateroute")
+const { sendCancellationEmail } = require("./sendEmail");
 
 router.get("/mybookings", authenticateUser, async (req, res) => {
   try {
@@ -21,6 +22,15 @@ router.delete("/mybookings/:id", authenticateUser, async (req, res) => {
     if (!deletedBooking) {
       // If no booking found, it either doesn't exist or doesn't belong to this user
       return res.status(404).json({ message: "Booking not found or unauthorized" });
+    }
+
+    try {
+        // Send cancellation email
+        await sendCancellationEmail(req.user.email, deletedBooking);
+        console.log("Cancellation email sent successfully");
+    } catch (emailError) {
+        console.error("Error sending cancellation email:", emailError);
+        // Continue even if email fails
     }
 
     res.json({ message: "Booking cancelled successfully" });

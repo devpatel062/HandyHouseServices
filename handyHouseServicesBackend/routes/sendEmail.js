@@ -62,4 +62,51 @@ Thank you for choosing Handy House Services!`,
     });
 };
 
-module.exports = sendConfirmationEmail;
+const sendCancellationEmail = (email, booking) => {
+    if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
+        throw new Error("Email user or password not set in environment variables");
+    }
+
+    const transporter = createTransport({
+        host: "smtp.gmail.com",
+        port: 587,
+        secure: false,
+        auth: {
+            user: process.env.EMAIL_USER,
+            pass: process.env.EMAIL_PASS
+        }
+    });
+
+    const mailOptions = {
+        from: process.env.EMAIL_USER,
+        to: email,
+        subject: "Repair Service Booking Cancellation",
+        text: `Hello ${booking.fullname},
+
+        Your repair service booking has been cancelled.
+
+        Cancelled Booking Details:
+        ------------------------------------------------------
+        Customer Name:      ${booking.fullname}
+        Service Address:    ${booking.address}
+        Date:               ${booking.date}
+        Issue Reported:     ${booking.problem}
+        ------------------------------------------------------
+
+        Thank you for choosing Handy House Services!`,
+            };
+
+    return new Promise((resolve, reject) => {
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                console.log("Email Error:", error);
+                reject(error);
+            } else {
+                console.log("Email sent:", info.response);
+                resolve(info);
+            }
+        });
+    });
+};
+
+module.exports = { sendConfirmationEmail, sendCancellationEmail };
