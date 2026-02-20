@@ -1,103 +1,163 @@
-# HandyHouseServices
+# 🏠 HandyHouse Services
 
-HandyHouseServices is a web application designed to facilitate home service bookings, allowing users to connect with professionals for various household tasks. The platform aims to streamline the process of finding, booking, and managing home services efficiently.
+HandyHouse Services is a modern, full-stack web application designed to connect users with reliable home service providers. Whether you need plumbing, electrical work, cleaning, or repairs, HandyHouse makes it easy to find, book, and pay for services securely.
 
-## Features
-### 🏠 User-Friendly Interface
-- Intuitive design ensuring seamless navigation
-- Responsive UI optimized for desktop and mobile users
+The platform leverages **AI-powered recommendations**, **location-based intelligence**, and **real-time booking analytics** to provide a seamless user experience.
 
-### 🔍 Service Browsing & Filtering
-- Users can browse various home services like plumbing, electrical work, cleaning, and more
-- Search and filter options to find the right service provider quickly
+---
 
-### 📅 Booking System
-- Easy appointment scheduling for services
-- Users can select date, time, and service provider based on availability
+## 🏗️ Project Structure
 
-### 👤 User Accounts & Profiles
-- Registration and login functionality
-- Users can view their booking history and manage appointments
+The project is organized as a monorepo with separate directories for the frontend and backend:
 
-### ⭐ Reviews & Ratings
-- Users can leave feedback for service providers
-- Helps maintain trust and service quality
-
-### 📧 Notifications
-- Email and in-app notifications for booking confirmations and reminders
-
-## Tech Stack
-- **Frontend:** React, Vite, Tailwind CSS
-- **Backend:** Node.js, Express.js
-- **Database:** MongoDB
-- **Build Tool:** Vite
-
-## Installation
-
-### Prerequisites
-Make sure you have the following installed:
-- [Node.js](https://nodejs.org/) (LTS recommended)
-- npm or yarn
-
-### Steps
-1. Clone the repository:
-   ```sh
-   git clone https://github.com/yourusername/HandyHouseServices.git
-   cd HandyHouseServices
-   ```
-2. Install dependencies:
-   - Frontend:
-     ```sh
-     cd handyHouseServicesFrontend
-     npm install
-     ```
-   - Backend:
-     ```sh
-     cd ../handyHouseServicesBackend
-     npm install
-     ```
-3. Start the development servers:
-   - Frontend:
-     ```sh
-     npm run dev
-     ```
-   - Backend:
-     ```sh
-     npm start
-     ```
-4. Open your browser and go to `http://localhost:5173/`
-
-## Project Structure
 ```
 HandyHouseServices/
-│── handyHouseServicesFrontend/
-│   │── public/            # Static assets
-│   │── src/               # Main application code
-│   │── components/        # Reusable React components
-│   │── pages/             # Page-level components
-│   │── assets/            # Images and static resources
-│   │── hooks/             # Custom React hooks
-│   │── utils/             # Utility functions
-│   │── index.html         # Entry file
-│   │── package.json       # Dependencies and scripts
-│   │── tailwind.config.js # Tailwind configuration
-│   │── vite.config.js     # Vite configuration
+├── handyHouseServicesBackend/    # Node.js/Express API Server
+│   ├── config/                   # Database configuration
+│   ├── controllers/              # Request handlers
+│   ├── models/                   # Mongoose schemas (Users, Services, Bookings)
+│   ├── routes/                   # API routes
+│   ├── utils/                    # Helper functions (Gemini AI, Email)
+│   ├── index.js                  # Entry point
+│   └── vercel.json               # Backend deployment config
 │
-│── handyHouseServicesBackend/
-│   │── index.js           # Entry point for backend server
-│   │── routes/            # API routes
-│   │── controllers/       # Route handler functions
-│   │── models/            # Database models
-│   │── config/            # Configuration files (e.g., database connection)
-│   │── package.json       # Dependencies and scripts
-│   │── vercel.json        # Deployment configuration
+└── handyHouseServicesFrontend/   # React/Vite Client Application
+    ├── src/
+    │   ├── assets/               # Images and static assets
+    │   ├── components/           # Reusable UI components
+    │   ├── pages/                # Application pages
+    │   ├── reducer/              # State management
+    │   └── App.jsx               # Main component
+    ├── public/                   # Public assets
+    └── vite.config.js            # Vite configuration
 ```
 
-## Future Enhancements
-- **Admin Dashboard** for managing services and providers
-- **Real-time Chat** between users and service providers
-- **Loyalty Rewards** and discount coupons
+---
 
-## License
-This project is licensed under the MIT License.
+## 🚀 Unique Functionalities
+
+1.  **🤖 Smart AI Recommendations**:
+    *   Utilizes **Google Gemini 2.0 Flash** to analyze user queries and recommend specific home services.
+    *   **Booking-Based Suggestions**: Recommends services based on real booking data from neighbors and trends in the user's city/area.
+
+2.  **💬 Intelligent Chatbot**:
+    *   An integrated AI chatbot assists users in finding services and answering queries in real-time.
+
+3.  **📍 Location Intelligence**:
+    *   Integrated with **Mapbox** for precise address selection and location-based service provider matching.
+    *   **Location Analytics** to provide insights on service demand in different regions.
+
+4.  **💳 Secure Payments**:
+    *   Seamless payment processing integration using **Stripe**.
+
+5.  **🔐 Robust Authentication**:
+    *   Supports traditional Email/Password login and **Google OAuth** for quick access.
+    *   Secured with **JWT (JSON Web Tokens)**.
+
+6.  **📊 Service Provider Management**:
+    *   Dedicated portal for service providers to manage their profiles and bookings.
+
+---
+
+## 🛠️ Tech Stack
+
+### **Frontend**
+*   **Framework**: [React](https://react.dev/) (powered by [Vite](https://vitejs.dev/))
+*   **Styling**: [Tailwind CSS](https://tailwindcss.com/), [Chakra UI](https://chakra-ui.com/)
+*   **Maps**: [Mapbox GL JS](https://www.mapbox.com/)
+*   **State Management**: React Context / Reducer
+*   **Animations**: [Framer Motion](https://www.framer.com/motion/)
+*   **Icons**: [Lucide React](https://lucide.dev/), [React Icons](https://react-icons.github.io/react-icons/)
+
+### **Backend**
+*   **Runtime**: [Node.js](https://nodejs.org/)
+*   **Framework**: [Express.js](https://expressjs.com/)
+*   **Database**: [MongoDB](https://www.mongodb.com/) (Mongoose ODM)
+*   **AI/LLM**: [Google Gemini API](https://ai.google.dev/) (`@google/genai`)
+*   **Authentication**: JSON Web Tokens (JWT), Google Auth Library
+*   **Payments**: [Stripe API](https://stripe.com/)
+*   **Email**: Nodemailer
+
+---
+
+## 🏛️ Architecture Diagram
+
+```mermaid
+graph TD
+    User[User Client] -->|HTTPS| FE[Frontend (React + Vite)]
+    FE -->|API Calls| BE[Backend API (Express.js)]
+
+    subgraph "External Services"
+        Auth[Google OAuth]
+        Map[Mapbox]
+        AI[Google Gemini AI]
+        Pay[Stripe]
+    end
+
+    FE -->|Geocoding| Map
+    BE -->|Auth Verification| Auth
+    BE -->|Payment Processing| Pay
+    BE -->|Smart Recommendations| AI
+
+    subgraph "Database"
+        DB[(MongoDB)]
+    end
+
+    BE -->|Read/Write| DB
+```
+
+---
+
+## ⚡ How to Install and Run
+
+### Prerequisites
+*   Node.js (v16 or higher)
+*   MongoDB Atlas Account (or local MongoDB)
+*   APIs Keys for: Google Gemini, Mapbox, Stripe, Google OAuth.
+
+### 1. Clone the Repository
+```bash
+git clone https://github.com/yourusername/HandyHouseServices.git
+cd HandyHouseServices
+```
+
+### 2. Backend Setup
+Navigate to the backend folder and install dependencies:
+```bash
+cd handyHouseServicesBackend
+npm install
+```
+
+Create a `.env` file in `handyHouseServicesBackend/` and configure your environment variables:
+```env
+PORT=5000
+MONGO_URI=your_mongodb_connection_string
+JWT_SECRET=your_jwt_secret
+GEMINI_API_KEY=your_gemini_api_key
+STRIPE_SECRET_KEY=your_stripe_secret_key
+# Add other required keys (Google OAuth, Email, etc.)
+```
+
+Start the server:
+```bash
+npm start
+# OR for development
+npm run dev
+```
+
+### 3. Frontend Setup
+Open a new terminal, navigate to the frontend folder, and install dependencies:
+```bash
+cd ../handyHouseServicesFrontend
+npm install
+```
+
+Create a `.env` file in `handyHouseServicesFrontend/` (if required by your config) or configure `src/` constants.
+
+Start the development server:
+```bash
+npm run dev
+```
+
+The application should now be running at `http://localhost:5173` (Frontend) and `http://localhost:5000` (Backend).
 
