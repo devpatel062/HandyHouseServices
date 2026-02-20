@@ -84,26 +84,30 @@ HandyHouseServices/
 
 ```mermaid
 graph TD
-    User[User Client] -->|HTTPS| FE[Frontend (React + Vite)]
-    FE -->|API Calls| BE[Backend API (Express.js)]
+    UserNode[User Client]
+    FE[Frontend]
+    BE[Backend API]
+    
+    UserNode -- HTTPS --> FE
+    FE -- API Calls --> BE
 
-    subgraph "External Services"
+    subgraph External_Services [External Services]
         Auth[Google OAuth]
-        Map[Mapbox]
+        MapService[Mapbox]
         AI[Google Gemini AI]
         Pay[Stripe]
     end
 
-    FE -->|Geocoding| Map
-    BE -->|Auth Verification| Auth
-    BE -->|Payment Processing| Pay
-    BE -->|Smart Recommendations| AI
+    FE -- Geocoding --> MapService
+    BE -- Auth Verification --> Auth
+    BE -- Payment Processing --> Pay
+    BE -- Smart Recommendations --> AI
 
-    subgraph "Database"
+    subgraph Database_Cluster [Database]
         DB[(MongoDB)]
     end
 
-    BE -->|Read/Write| DB
+    BE -- Read/Write --> DB
 ```
 
 ---
