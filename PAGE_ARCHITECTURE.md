@@ -45,6 +45,7 @@ graph TD
         Repair -- "Book Service" --> BookingModal[Booking Modal]
         BookingModal -- "Confirm" --> Payment[Stripe Checkout]
         Payment -- "Success" --> MyBookings
+        MyBookings -- "Cancel/Delete Booking" --> MyBookings
         
         %% Profile Actions
         Profile -- "Edit Details" --> Profile
