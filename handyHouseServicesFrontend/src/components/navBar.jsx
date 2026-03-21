@@ -10,7 +10,7 @@ import {
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { UserContext } from "../../App";
+import { UserContext } from "../App";
 import { Icon } from "@chakra-ui/react";
 import { FaUser } from "react-icons/fa";
 import { MdEventNote } from "react-icons/md";
@@ -55,7 +55,7 @@ export const Navbar = () => {
         position="relative"
       >
         {/* Logo/Title */}
-        <Link to={user ? "/" : "#"} aria-label="Home">
+        <Link to="/" aria-label="Home">
           <Text
             fontWeight="bold"
             fontSize={{ base: "lg", md: "2xl" }}
@@ -73,7 +73,7 @@ export const Navbar = () => {
           gap={6}
           ml={4}
         >
-          <Link to={user ? "/" : "#"} aria-label="Home">
+          <Link to="/" aria-label="Home">
             <Button
               variant="ghost"
               fontWeight="semibold"
@@ -84,36 +84,51 @@ export const Navbar = () => {
               Home
             </Button>
           </Link>
-          <Link
-            to={user ? "/RepairServices" : "#"}
-            aria-label="Repair Services"
-          >
+          <Link to="/RepairServices" aria-label="Repair Services">
             <Button
               variant="ghost"
               fontWeight="semibold"
               fontSize="md"
               px={4}
-              isDisabled={!user}
               _hover={{ bg: "blue.50" }}
             >
               Repair Services
             </Button>
           </Link>
-          <Link to={user ? "/aboutUs" : "#"} aria-label="About Us">
+          <Link to="/aboutUs" aria-label="About Us">
             <Button
               variant="ghost"
               fontWeight="semibold"
               fontSize="md"
               px={4}
-              isDisabled={!user}
               _hover={{ bg: "blue.50" }}
             >
               About Us
             </Button>
           </Link>
+          {!user && (
+            <Flex gap={2} ml={4}>
+              <Button
+                onClick={() => navigate("/signin")}
+                colorScheme="blue"
+                variant="solid"
+                size="sm"
+              >
+                Sign In
+              </Button>
+              <Button
+                onClick={() => navigate("/signup")}
+                colorScheme="blue"
+                variant="outline"
+                size="sm"
+              >
+                Sign Up
+              </Button>
+            </Flex>
+          )}
           {user && (
             <Flex gap={2} ml={4}>
-              <Link to="/UserProfile" aria-label="User Profile">
+              <Link to="/userProfile" aria-label="User Profile">
                 <IconButton
                   icon={<FaUser />}
                   aria-label="Profile"
@@ -191,7 +206,7 @@ export const Navbar = () => {
           />
         </Flex>
         <Flex flexDir="column" align="center" mt={8} gap={2}>
-          <Link to={user ? "/" : "#"} aria-label="Home">
+          <Link to="/" aria-label="Home">
             <Button
                 variant="ghost"
                 fontWeight="semibold"
@@ -202,36 +217,59 @@ export const Navbar = () => {
               Home
             </Button>
           </Link>
-          <Link
-            to={user ? "/RepairServices" : "#"}
-            aria-label="Repair Services"
-          >
+          <Link to="/RepairServices" aria-label="Repair Services">
             <Button
               variant="ghost"
               fontWeight="semibold"
               fontSize="lg"
               w="100%"
-              isDisabled={!user}
               _hover={{ bg: "blue.50" }}
             >
               Repair Services
             </Button>
           </Link>
-          <Link to={user ? "/aboutUs" : "#"} aria-label="About Us">
+          <Link to="/aboutUs" aria-label="About Us">
             <Button
               variant="ghost"
               fontWeight="semibold"
               fontSize="lg"
               w="100%"
-              isDisabled={!user}
               _hover={{ bg: "blue.50" }}
             >
               About Us
             </Button>
           </Link>
+          {!user && (
+            <Flex flexDir="column" gap={2} mt={4} w="full" px={10}>
+              <Button
+                onClick={() => {
+                  navigate("/signin");
+                  changeDisplay("none");
+                }}
+                colorScheme="blue"
+                variant="solid"
+                size="lg"
+                w="100%"
+              >
+                Sign In
+              </Button>
+              <Button
+                onClick={() => {
+                  navigate("/signup");
+                  changeDisplay("none");
+                }}
+                colorScheme="blue"
+                variant="outline"
+                size="lg"
+                w="100%"
+              >
+                Sign Up
+              </Button>
+            </Flex>
+          )}
           {user && (
             <Flex flexDir="row" gap={2} mt={4}>
-              <Link to="/UserProfile" aria-label="User Profile">
+              <Link to="/userProfile" aria-label="User Profile">
                 <IconButton
                   icon={<FaUser />}
                   aria-label="Profile"

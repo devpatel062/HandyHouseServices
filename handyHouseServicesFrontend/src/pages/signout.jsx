@@ -1,5 +1,5 @@
 import {React, useEffect, useContext} from 'react'
-import { UserContext } from '../../App'; 
+import { UserContext } from '../App'; 
 
 export const handleLogout = async () => {
 

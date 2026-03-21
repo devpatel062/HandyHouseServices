@@ -1,5 +1,6 @@
-import { useState, useEffect, useMemo } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useState, useEffect, useMemo, useContext } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import {
   Card,
   Image,
@@ -29,7 +30,8 @@ import {
 } from '@chakra-ui/react';
 import { FiSearch, FiRefreshCw, FiAlertTriangle } from 'react-icons/fi';
 import ServiceModal from './serviceproviderModal';
-import Footer from './Footer';
+import Footer from '../components/Footer';
+import { UserContext } from '../App';
 
 export const RepairServices = () => {
   const [services, setServices] = useState([]);
@@ -41,34 +43,69 @@ export const RepairServices = () => {
 
   const toast = useToast();
   const location = useLocation();
+  const navigate = useNavigate();
+  const { user } = useContext(UserContext);
 
   // ✅ Toast after Stripe redirect
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const payment = params.get('payment');
+    const sessionId = params.get('session_id');
 
     if (!payment) return;
 
-    if (payment === 'success') {
-      toast({
-        title: 'Payment successful ✅',
-        description: 'Your booking is confirmed.',
-        status: 'success',
-        duration: 4000,
-        isClosable: true,
-      });
-    } else if (payment === 'cancel') {
-      toast({
-        title: 'Payment cancelled',
-        description: 'No charges were made. You can try again.',
-        status: 'warning',
-        duration: 4000,
-        isClosable: true,
-      });
-    }
+    const handlePaymentRedirect = async () => {
+      if (payment === 'success') {
+        if (sessionId) {
+          try {
+            const response = await axios.post(
+              `${import.meta.env.VITE_API_BASE_URL}/api/payments/confirm-booking`,
+              { sessionId },
+              { withCredentials: true }
+            );
 
-    // remove query param so it doesn’t repeat
-    window.history.replaceState({}, '', location.pathname);
+            toast({
+              title: 'Payment successful ✅',
+              description: response.data?.created
+                ? 'Your booking is confirmed and saved.'
+                : 'Your booking was already confirmed.',
+              status: 'success',
+              duration: 4000,
+              isClosable: true,
+            });
+          } catch (error) {
+            toast({
+              title: 'Payment successful ✅',
+              description: 'We are syncing your booking. Please refresh My Bookings in a moment.',
+              status: 'warning',
+              duration: 5000,
+              isClosable: true,
+            });
+          }
+        } else {
+          toast({
+            title: 'Payment successful ✅',
+            description: 'Your booking is confirmed.',
+            status: 'success',
+            duration: 4000,
+            isClosable: true,
+          });
+        }
+      } else if (payment === 'cancel') {
+        toast({
+          title: 'Payment cancelled',
+          description: 'No charges were made. You can try again.',
+          status: 'warning',
+          duration: 4000,
+          isClosable: true,
+        });
+      }
+
+      // remove query params so effect does not repeat
+      window.history.replaceState({}, '', location.pathname);
+    };
+
+    handlePaymentRedirect();
   }, [location.search, location.pathname, toast]);
 
   // Fetch services
@@ -103,6 +140,27 @@ export const RepairServices = () => {
   }, [toast]);
 
   const handleBookNow = (service) => {
+    if (!user) {
+      toast({
+        title: 'Authentication required',
+        description: (
+          <Button
+            variant="link"
+            color="white"
+            _hover={{ color: 'gray.100' }}
+            onClick={() => navigate('/signin', { state: { from: location } })}
+          >
+            Continue to Sign In
+          </Button>
+        ),
+        status: 'warning',
+        duration: 5000,
+        isClosable: true,
+        position: 'top',
+      });
+      return;
+    }
+
     setSelectedService(service);
     setShowModal(true);
   };

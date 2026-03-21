@@ -38,6 +38,13 @@ const repairServicesschema = new mongoose.Schema({
         unique : false
     },
 
+    serviceType: {
+        type: String,
+        required: false,
+        trim: true,
+        unique: false
+    },
+
     date: {
         type : Date,
         required : true,
@@ -78,6 +85,28 @@ const repairServicesschema = new mongoose.Schema({
         type: Number,
         required: true,
         default: 0
+    },
+
+    paymentStatus: {
+        type: String,
+        enum: ["pending", "paid", "failed"],
+        default: "pending",
+        required: true
+    },
+
+    stripeSessionId: {
+        type: String,
+        required: false,
+        trim: true,
+        index: true,
+        unique: true,
+        sparse: true
+    },
+
+    stripePaymentIntent: {
+        type: String,
+        required: false,
+        trim: true
     },
     
 });

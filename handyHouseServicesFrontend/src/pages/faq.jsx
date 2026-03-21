@@ -9,7 +9,7 @@ import {
   Heading,
   Flex,
 } from "@chakra-ui/react";
-import Footer from "./Footer";
+import Footer from "../components/Footer";
 
 const accentGradient = "linear(to-r, blue.600, blue.400)";
 

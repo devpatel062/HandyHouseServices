@@ -3,9 +3,65 @@ const router = express.Router();
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 const Complaint = require("../models/complains");
+const User = require("../models/signupUser");
+const authenticateUser = require("./authenticateroute");
 const { sendConfirmationEmail } = require("./sendEmail");
 
-router.post("/createCheckoutSession", async (req, res) => {
+const buildBookingFromSession = (session) => {
+  if (!session?.metadata) {
+    throw new Error("Missing Stripe session metadata");
+  }
+
+  return {
+    fullname: session.metadata.fullname,
+    address: session.metadata.address,
+    contact: session.metadata.contact,
+    email: session.metadata.email,
+    problem: session.metadata.problem,
+    date: session.metadata.date,
+    serviceType: session.metadata.serviceType,
+    serviceProvidername: session.metadata.serviceProvidername,
+    serviceProvideremail: session.metadata.serviceProvideremail,
+    serviceProvidernumber: session.metadata.serviceProvidernumber,
+    serviceProviderrating: session.metadata.serviceProviderrating,
+    price: parseFloat(session.metadata.price),
+  };
+};
+
+const saveBookingFromSession = async (session) => {
+  const formData = buildBookingFromSession(session);
+
+  const bookingPayload = {
+    ...formData,
+    paymentStatus: "paid",
+    stripeSessionId: session.id,
+    stripePaymentIntent: session.payment_intent || null,
+  };
+
+  const upsertResult = await Complaint.updateOne(
+    { stripeSessionId: session.id },
+    { $setOnInsert: bookingPayload },
+    { upsert: true }
+  );
+
+  const booking = await Complaint.findOne({ stripeSessionId: session.id });
+  const created = upsertResult.upsertedCount > 0;
+
+  if (!created) {
+    return { created: false, booking };
+  }
+
+  try {
+    await sendConfirmationEmail(formData.email, formData);
+    console.log("✅ Confirmation email sent.");
+  } catch (emailError) {
+    console.error("❌ Error sending email:", emailError);
+  }
+
+  return { created: true, booking };
+};
+
+router.post("/createCheckoutSession", authenticateUser, async (req, res) => {
   try {
     const { formData } = req.body;
     console.log("Payment route hit with formData:", JSON.stringify(formData, null, 2));
@@ -18,6 +74,13 @@ router.post("/createCheckoutSession", async (req, res) => {
       throw new Error("Price is missing in formData");
     }
 
+    const signedInUser = await User.findById(req.user.id).select("email");
+    if (!signedInUser?.email) {
+      return res.status(401).json({ error: "Unauthorized user" });
+    }
+
+    const canonicalEmail = signedInUser.email.trim();
+
     const unitAmount = Math.round(Number(formData.price) * 100);
     if (isNaN(unitAmount)) {
         throw new Error(`Invalid price value: ${formData.price}`);
@@ -28,7 +91,7 @@ router.post("/createCheckoutSession", async (req, res) => {
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       mode: "payment",
-      customer_email: formData.email,
+      customer_email: canonicalEmail,
       line_items: [
         {
           price_data: {
@@ -46,7 +109,7 @@ router.post("/createCheckoutSession", async (req, res) => {
         fullname: formData.fullname.substring(0, 500) || "",
         address: formData.address.substring(0, 500) || "",
         contact: formData.contact.substring(0, 500) || "",
-        email: formData.email.substring(0, 500) || "",
+        email: canonicalEmail.substring(0, 500) || "",
         problem: formData.problem.substring(0, 500) || "",
         date: formData.date.substring(0, 500) || "",
         serviceType: formData.serviceType.substring(0, 500) || "",
@@ -55,8 +118,9 @@ router.post("/createCheckoutSession", async (req, res) => {
         serviceProvidernumber: formData.serviceProvidernumber ? formData.serviceProvidernumber.substring(0, 500) : "",
         serviceProviderrating: String(formData.serviceProviderrating || ""),
         price: String(formData.price || "0"),
+        userId: String(req.user.id || ""),
       },
-      success_url: `${process.env.CLIENT_URL}/RepairServices?payment=success`,
+      success_url: `${process.env.CLIENT_URL}/RepairServices?payment=success&session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${process.env.CLIENT_URL}/RepairServices?payment=cancel`,
     });
 
@@ -65,6 +129,43 @@ router.post("/createCheckoutSession", async (req, res) => {
   } catch (error) {
     console.error("❌ Stripe session error:", error);
     res.status(500).json({ error: error.message });
+  }
+});
+
+router.post("/confirm-booking", authenticateUser, async (req, res) => {
+  try {
+    const { sessionId } = req.body;
+
+    if (!sessionId) {
+      return res.status(400).json({ error: "sessionId is required" });
+    }
+
+    const session = await stripe.checkout.sessions.retrieve(sessionId);
+    if (!session) {
+      return res.status(404).json({ error: "Checkout session not found" });
+    }
+
+    if (session.payment_status !== "paid") {
+      return res.status(400).json({ error: "Payment not completed" });
+    }
+
+    const signedInUser = await User.findById(req.user.id).select("email");
+    if (!signedInUser?.email) {
+      return res.status(401).json({ error: "Unauthorized user" });
+    }
+
+    const signedInEmail = signedInUser.email.trim().toLowerCase();
+    const sessionEmail = String(session.metadata?.email || "").trim().toLowerCase();
+
+    if (signedInEmail && sessionEmail && signedInEmail !== sessionEmail) {
+      return res.status(403).json({ error: "Session does not belong to signed-in user" });
+    }
+
+    const result = await saveBookingFromSession(session);
+    return res.status(200).json({ success: true, created: result.created });
+  } catch (error) {
+    console.error("❌ Confirm booking error:", error.message);
+    return res.status(500).json({ error: error.message });
   }
 });
 
@@ -90,47 +191,12 @@ router.post("/webhook", async (req, res) => {
   if (event.type === "checkout.session.completed") {
     const session = event.data.object;
     console.log("✅ Payment Successful. Session:", session.id);
-
     try {
-      const exists = await Complaint.findOne({ stripeSessionId: session.id });
-      if (exists) {
+      const result = await saveBookingFromSession(session);
+      if (result.created) {
+        console.log("✅ Booking saved to DB via Webhook.");
+      } else {
         console.log("ℹ️ Booking already exists for session:", session.id);
-        return res.status(200).send();
-      }
-    } catch (e) {
-      console.error("❌ DB lookup failed:", e.message);
-    }
-
-    const formData = {
-      fullname: session.metadata.fullname,
-      address: session.metadata.address,
-      contact: session.metadata.contact,
-      email: session.metadata.email,
-      problem: session.metadata.problem,
-      date: session.metadata.date,
-      serviceType: session.metadata.serviceType,
-      serviceProvidername: session.metadata.serviceProvidername,
-      serviceProvideremail: session.metadata.serviceProvideremail,
-      serviceProvidernumber: session.metadata.serviceProvidernumber,
-      serviceProviderrating: session.metadata.serviceProviderrating,
-      price: parseFloat(session.metadata.price),
-    };
-
-    try {
-      await Complaint.create({
-        ...formData,
-        paymentStatus: "paid",
-        stripeSessionId: session.id,
-        stripePaymentIntent: session.payment_intent || null,
-      });
-
-      console.log("✅ Booking saved to DB via Webhook.");
-      
-      try {
-        await sendConfirmationEmail(formData.email, formData);
-        console.log("✅ Confirmation email sent.");
-      } catch (emailError) {
-        console.error("❌ Error sending email:", emailError);
       }
     } catch (err) {
       console.error("❌ Error saving booking in webhook:", err.message);

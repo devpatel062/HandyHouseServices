@@ -2,7 +2,7 @@ const accentGradient = 'linear-gradient(90deg, #e0e7ff 0%, #bae6fd 100%)'; // li
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Button } from '@chakra-ui/react';
-import Form from './Modal';
+import Form from '../components/Modal';
 
 const ProvidersModal = ({ serviceType, onClose }) => {
   const [providers, setProviders] = useState([]);

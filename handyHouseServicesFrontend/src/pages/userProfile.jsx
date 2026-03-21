@@ -25,7 +25,7 @@ import {
 import { EditIcon, CloseIcon } from "@chakra-ui/icons";
 import { FiCheck, FiLogOut, FiTrash2 } from 'react-icons/fi';
 import axios from "axios";
-import { UserContext } from "../../App";
+import { UserContext } from "../App";
 import { useNavigate } from "react-router-dom";
 
 const UserProfile = () => {

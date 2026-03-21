@@ -17,18 +17,21 @@ import {
 import axios from "axios";
 import { useState, useContext } from "react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
-import { useNavigate } from "react-router-dom";
-import { UserContext } from "../../App";
+import { useLocation, useNavigate } from "react-router-dom";
+import { UserContext } from "../App";
 
 export const SimpleCard = () => {
   const toast = useToast();
   const [showPassword, setShowPassword] = useState(false);
   const { /* user, */ setUser } = useContext(UserContext);
   const navigate = useNavigate();
+  const location = useLocation();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+
+  const redirectPath = location.state?.from?.pathname || "/";
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -51,7 +54,7 @@ export const SimpleCard = () => {
       });
       //   dispatch({ type: "USER", payload: true });
       setUser(formData.email);
-      navigate("/");
+      navigate(redirectPath, { replace: true });
     } catch (error) {
       if (error.response) {
         // If the server responded with an error status

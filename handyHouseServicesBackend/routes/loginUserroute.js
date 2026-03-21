@@ -32,7 +32,7 @@ router.post("/signin", async (req, res) => {
       .cookie("token", token, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production", // ❗ Must be false for localhost
-        sameSite: "None",       
+        sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",       
         maxAge: 60 * 60 * 1000,
         path: "/",
       })

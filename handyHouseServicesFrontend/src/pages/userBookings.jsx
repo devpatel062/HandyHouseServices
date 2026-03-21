@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
   Box,
   Heading,
@@ -46,6 +47,8 @@ const UserBookings = () => {
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
   const toast = useToast();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const fetchBookings = async () => {
@@ -57,8 +60,13 @@ const UserBookings = () => {
         setBookings(response.data);
       } catch (error) {
         console.error("Error fetching bookings:", error);
+        if (error.response?.status === 401 || error.response?.status === 403) {
+          navigate("/signin", { state: { from: location }, replace: true });
+          return;
+        }
+
         toast({
-          title: "Failed to load bookings.",
+          title: error.response?.data?.message || "Failed to load bookings.",
           status: "error",
           duration: 3000,
           isClosable: true,
@@ -69,7 +77,7 @@ const UserBookings = () => {
     };
 
     fetchBookings();
-  }, []);
+  }, [location, navigate, toast]);
 
   const total = bookings.length;
 

@@ -3,8 +3,8 @@ import { Input, useToast } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import CheckOutButton from "../pages/CheckOutButton";
-import AddressSelector from "../components/AddressSelector";
+import CheckOutButton from "./CheckOutButton";
+import AddressSelector from "./AddressSelector";
 
 const accentGradient =
   "linear-gradient(90deg, #e0e7ff 0%, #bae6fd 100%)";
@@ -60,12 +60,27 @@ function Modal({ serviceTypeProvider, serviceType, onClose }) {
         }));
       } catch (error) {
         console.error("Failed to fetch user data:", error);
-        showToast("Failed to fetch user data.", "error");
-        navigate("/signin");
+        toast({
+          title: "Authentication required",
+          description: (
+            <button
+              type="button"
+              className="text-white underline font-medium hover:text-gray-100"
+              onClick={() => navigate("/signin")}
+            >
+              Continue to Sign In
+            </button>
+          ),
+          status: "warning",
+          duration: 5000,
+          isClosable: true,
+          position: "top",
+        });
+        onClose?.();
       }
     };
     fetchUserData();
-  }, [navigate, toast]);
+  }, [navigate, onClose, toast]);
 
   const handleChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));

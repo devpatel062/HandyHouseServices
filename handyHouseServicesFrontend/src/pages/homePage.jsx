@@ -12,7 +12,7 @@ export const HomePage = () => {
 
   const handleServiceSelect = (serviceName) => {
     // Navigate to repair services page and potentially filter by service
-    navigate('/repairServices', { state: { selectedService: serviceName } });
+    navigate('/RepairServices', { state: { selectedService: serviceName } });
   };
 
   return (

@@ -1,8 +1,8 @@
 // import React from 'react'
 import { Box, Heading, Text, Flex, Image, Divider, SimpleGrid, Stack, Icon, Badge, useColorModeValue, Button } from '@chakra-ui/react';
 import { FaHandshake, FaTools, FaShieldAlt, FaClock, FaUserCheck, FaLeaf } from 'react-icons/fa';
-import Footer from './Footer';
-import collage from '../Images/collage.jpg';
+import Footer from '../components/Footer';
+import collage from '../assets/Images/collage.jpg';
 
 export const AboutUs = () => {
   const sectionBg = useColorModeValue('white', 'whiteAlpha.100');
