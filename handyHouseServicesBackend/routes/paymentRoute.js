@@ -31,6 +31,19 @@ const buildBookingFromSession = (session) => {
 const saveBookingFromSession = async (session) => {
   const formData = buildBookingFromSession(session);
 
+  // Final double-booking check before saving
+  const existingBooking = await Complaint.findOne({
+    serviceProvideremail: formData.serviceProvideremail,
+    date: formData.date,
+    paymentStatus: "paid",
+    stripeSessionId: { $ne: session.id } // exclude current session
+  });
+
+  if (existingBooking) {
+    console.error("❌ Confirmed: Attempted double-booking for session", session.id);
+    return { created: false, error: "Slot already booked" };
+  }
+
   const bookingPayload = {
     ...formData,
     paymentStatus: "paid",
@@ -80,6 +93,19 @@ router.post("/createCheckoutSession", authenticateUser, async (req, res) => {
     }
 
     const canonicalEmail = signedInUser.email.trim();
+
+    // Check for existing bookings for the same provider at the same date
+    const existingBooking = await Complaint.findOne({
+      serviceProvideremail: formData.serviceProvideremail,
+      date: formData.date,
+      paymentStatus: "paid"
+    });
+
+    if (existingBooking) {
+      return res.status(409).json({ 
+        error: "This time slot is already booked for this provider. Please choose another time or provider." 
+      });
+    }
 
     const unitAmount = Math.round(Number(formData.price) * 100);
     if (isNaN(unitAmount)) {
