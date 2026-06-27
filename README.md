@@ -1,167 +1,150 @@
-# 🏠 HandyHouse Services
+# HandyHouse Services
 
-HandyHouse Services is a modern, full-stack web application designed to connect users with reliable home service providers. Whether you need plumbing, electrical work, cleaning, or repairs, HandyHouse makes it easy to find, book, and pay for services securely.
+HandyHouse Services is a full-stack home-service booking app. The current user flow is:
+home page discovery, service browsing, modal-based booking, Stripe checkout, and booking history management for signed-in users.
 
-The platform leverages **AI-powered recommendations**, **location-based intelligence**, and **real-time booking analytics** to provide a seamless user experience.
+The frontend now exposes a public landing experience with an AI assistant and location-aware recommendations, while profile and booking history remain protected behind authentication.
 
----
+## Project Structure
 
-## 🏗️ Project Structure
-
-The project is organized as a monorepo with separate directories for the frontend and backend:
-
-```
+```text
 HandyHouseServices/
-├── handyHouseServicesBackend/    # Node.js/Express API Server
-│   ├── config/                   # Database configuration
-│   ├── controllers/              # Request handlers
-│   ├── models/                   # Mongoose schemas (Users, Services, Bookings)
-│   ├── routes/                   # API routes
-│   ├── utils/                    # Helper functions (Gemini AI, Email)
-│   ├── index.js                  # Entry point
-│   └── vercel.json               # Backend deployment config
-│
-└── handyHouseServicesFrontend/   # React/Vite Client Application
+├── handyHouseServicesBackend/    Node.js/Express API server
+│   ├── config/                   Database configuration
+│   ├── controllers/              Request handlers
+│   ├── models/                   Mongoose schemas
+│   ├── routes/                   API endpoints
+│   ├── utils/                    Gemini and email helpers
+│   └── index.js                  Server entry point
+└── handyHouseServicesFrontend/   React/Vite client
     ├── src/
-    │   ├── assets/               # Images and static assets
-    │   ├── components/           # Reusable UI components
-    │   ├── pages/                # Application pages
-    │   ├── reducer/              # State management
-    │   └── App.jsx               # Main component
-    ├── public/                   # Public assets
-    └── vite.config.js            # Vite configuration
+    │   ├── Auth/                 Sign in and sign up screens
+    │   ├── components/           Shared UI and booking components
+    │   ├── pages/                Home, services, profile, bookings, FAQ
+    │   └── App.jsx               Router and protected-route setup
+    └── vite.config.js            Vite configuration
 ```
 
----
-
-## 🚀 Unique Functionalities
-
-1.  **🤖 Smart AI Recommendations**:
-    *   Utilizes **Google Gemini 2.0 Flash** to analyze user queries and recommend specific home services.
-    *   **Booking-Based Suggestions**: Recommends services based on real booking data from neighbors and trends in the user's city/area.
-
-2.  **💬 Intelligent Chatbot**:
-    *   An integrated AI chatbot assists users in finding services and answering queries in real-time.
-
-3.  **📍 Location Intelligence**:
-    *   Integrated with **Mapbox** for precise address selection and location-based service provider matching.
-    *   **Location Analytics** to provide insights on service demand in different regions.
-
-4.  **💳 Secure Payments**:
-    *   Seamless payment processing integration using **Stripe**.
-
-5.  **🔐 Robust Authentication**:
-    *   Supports traditional Email/Password login and **Google OAuth** for quick access.
-    *   Secured with **JWT (JSON Web Tokens)**.
-
-6.  **📊 Service Provider Management**:
-    *   Dedicated portal for service providers to manage their profiles and bookings.
-
----
-
-## 🛠️ Tech Stack
-
-### **Frontend**
-*   **Framework**: [React](https://react.dev/) (powered by [Vite](https://vitejs.dev/))
-*   **Styling**: [Tailwind CSS](https://tailwindcss.com/), [Chakra UI](https://chakra-ui.com/)
-*   **Maps**: [Mapbox GL JS](https://www.mapbox.com/)
-*   **State Management**: React Context / Reducer
-*   **Animations**: [Framer Motion](https://www.framer.com/motion/)
-*   **Icons**: [Lucide React](https://lucide.dev/), [React Icons](https://react-icons.github.io/react-icons/)
-
-### **Backend**
-*   **Runtime**: [Node.js](https://nodejs.org/)
-*   **Framework**: [Express.js](https://expressjs.com/)
-*   **Database**: [MongoDB](https://www.mongodb.com/) (Mongoose ODM)
-*   **AI/LLM**: [Google Gemini API](https://ai.google.dev/) (`@google/genai`)
-*   **Authentication**: JSON Web Tokens (JWT), Google Auth Library
-*   **Payments**: [Stripe API](https://stripe.com/)
-*   **Email**: Nodemailer
-
----
-
-## 🏛️ Architecture Diagram
+## Current App Flow
 
 ```mermaid
 graph TD
-    UserNode[User Client]
-    FE[Frontend]
-    BE[Backend API]
-    
-    UserNode -- HTTPS --> FE
-    FE -- API Calls --> BE
+    Start((App load)) --> AuthCheck{/api/user}
+    AuthCheck -->|authenticated| UserCtx[UserContext]
+    AuthCheck -->|guest| GuestState[Guest state]
 
-    subgraph External_Services [External Services]
-        Auth[Google OAuth]
-        MapService[Mapbox]
-        AI[Google Gemini AI]
-        Pay[Stripe]
-    end
+    UserCtx --> Nav[Global Navbar]
+    GuestState --> Nav
 
-    FE -- Geocoding --> MapService
-    BE -- Auth Verification --> Auth
-    BE -- Payment Processing --> Pay
-    BE -- Smart Recommendations --> AI
+    Nav --> Home[HomePage /]
+    Nav --> SignIn[/signin/]
+    Nav --> SignUp[/signup/]
+    Nav --> Repair[/RepairServices/]
+    Nav --> About[/aboutUs/]
+    Nav --> FAQ[/Faq/]
+    Nav --> Profile[/userProfile/]
+    Nav --> Bookings[/myBookings/]
 
-    subgraph Database_Cluster [Database]
-        DB[(MongoDB)]
-    end
+    Home --> Recs[SmartRecommendations]
+    Home --> Bot[Chatbot]
+    Recs --> Repair
+    Bot --> Repair
 
-    BE -- Read/Write --> DB
+    Repair --> Modal[serviceproviderModal]
+    Modal --> Stripe[Stripe Checkout]
+    Stripe -->|success| Repair
+    Stripe -->|cancel| Repair
+    Repair --> Confirm[/api/payments/confirm-booking/]
+    Confirm --> Bookings
+
+    Profile --> Logout[/api/logout/]
+    Profile --> Delete[/api/deleteuser/]
+    Bookings --> Cancel[/api/mybookings/:id/]
 ```
 
----
+## Pages And Access
 
-## ⚡ How to Install and Run
+| Route | Component | Access | Notes |
+| :--- | :--- | :--- | :--- |
+| `/` | `HomePage` | Public | Hero section, floating AI assistant, and nearby booking recommendations. |
+| `/signin` | `SimpleCard` | Public | Email/password sign-in that sets the session cookie. |
+| `/signup` | `SignupCard` | Public | New account registration. |
+| `/RepairServices` | `RepairServices` | Public* | Service catalog, booking start point, and Stripe return handling. |
+| `/aboutUs` | `AboutUs` | Public | About page. |
+| `/Faq` | `Faq` | Public | FAQ/support page. |
+| `/userProfile` | `UserProfile` | Protected | View/edit profile, logout, delete account. |
+| `/myBookings` | `UserBookings` | Protected | Booking history and cancellation. |
+
+*Booking itself still requires authentication. If a guest tries to book, the UI redirects them to `/signin`.
+
+## Key Features In The Current Flow
+
+1. `HomePage` shows the main landing experience and embeds both `SmartRecommendations` and the chatbot.
+2. `RepairServices` fetches the service catalog from `/api/services` and opens `serviceproviderModal` when the user chooses to book.
+3. `CheckOutButton` starts Stripe checkout through `/api/payments/createCheckoutSession`.
+4. Successful Stripe return handling happens back on `/RepairServices`, where `/api/payments/confirm-booking` finalizes the booking.
+5. `UserBookings` reads from `/api/mybookings` and supports cancellation through `/api/mybookings/:id`.
+6. `UserProfile` uses `/api/user`, `/api/logout`, and `/api/deleteuser` for account management.
+
+## Backend Endpoints Used By The Frontend
+
+| Endpoint | Purpose |
+| :--- | :--- |
+| `/api/user` | Loads the current signed-in user. |
+| `/api/signin` | Authenticates the user and sets the auth cookie. |
+| `/api/signup` | Creates a new user. |
+| `/api/logout` | Clears the auth cookie. |
+| `/api/services` | Returns the service list. |
+| `/api/chatbot` | Returns Gemini-based service suggestions. |
+| `/api/location-analytics` | Powers location-based recommendation data. |
+| `/api/payments/createCheckoutSession` | Starts Stripe checkout. |
+| `/api/payments/confirm-booking` | Confirms a paid booking after redirect. |
+| `/api/mybookings` | Returns the current user’s bookings. |
+| `/api/mybookings/:id` | Cancels a booking. |
+| `/api/deleteuser` | Deletes the current account. |
+
+## Tech Stack
+
+### Frontend
+
+- React with Vite
+- Chakra UI and Tailwind CSS
+- Framer Motion
+- Lucide React and React Icons
+- Mapbox for location-aware features
+
+### Backend
+
+- Node.js and Express
+- MongoDB with Mongoose
+- Google Gemini via `@google/genai`
+- JWT cookie-based authentication
+- Stripe payments
+- Nodemailer for booking emails
+
+## Run Locally
 
 ### Prerequisites
-*   Node.js (v16 or higher)
-*   MongoDB Atlas Account (or local MongoDB)
-*   APIs Keys for: Google Gemini, Mapbox, Stripe, Google OAuth.
 
-### 1. Clone the Repository
-```bash
-git clone https://github.com/yourusername/HandyHouseServices.git
-cd HandyHouseServices
-```
+- Node.js 16+
+- MongoDB connection string
+- Environment keys for Gemini, Stripe, Mapbox, and the app client/backend URLs
 
-### 2. Backend Setup
-Navigate to the backend folder and install dependencies:
+### Backend
+
 ```bash
 cd handyHouseServicesBackend
 npm install
-```
-
-Create a `.env` file in `handyHouseServicesBackend/` and configure your environment variables:
-```env
-PORT=5000
-MONGO_URI=your_mongodb_connection_string
-JWT_SECRET=your_jwt_secret
-GEMINI_API_KEY=your_gemini_api_key
-STRIPE_SECRET_KEY=your_stripe_secret_key
-# Add other required keys (Google OAuth, Email, etc.)
-```
-
-Start the server:
-```bash
 npm start
-# OR for development
-npm run dev
 ```
 
-### 3. Frontend Setup
-Open a new terminal, navigate to the frontend folder, and install dependencies:
+### Frontend
+
 ```bash
-cd ../handyHouseServicesFrontend
+cd handyHouseServicesFrontend
 npm install
-```
-
-Create a `.env` file in `handyHouseServicesFrontend/` (if required by your config) or configure `src/` constants.
-
-Start the development server:
-```bash
 npm run dev
 ```
 
-The application should now be running at `http://localhost:5173` (Frontend) and `http://localhost:5000` (Backend).
+The frontend runs on `http://localhost:5173` and the backend runs on the configured API port, typically `http://localhost:5000`.
 

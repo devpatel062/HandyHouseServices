@@ -1,75 +1,107 @@
 # 🗺️ Application Page Architecture
 
-This document outlines the high-level page flow and interaction within the **HandyHouse Services** frontend.
+This document reflects the current page flow and interaction model in the **HandyHouse Services** frontend.
 
-## 🧭 Navigation Flow
+## 🧭 Current Flow
 
-The application uses `react-router-dom` for client-side routing. Access to most pages is protected and requires user authentication.
+The app uses `react-router-dom` for client-side routing and wraps the UI in `ChakraProvider` plus a global `BrowserRouter`. On startup, `App` checks the signed-in user by calling `/api/user` with credentials. A global navbar is always rendered, while only `userProfile` and `myBookings` are guarded by `ProtectedRoute`.
 
 ```mermaid
 graph TD
-    %% Define Styles
     classDef public fill:#e1f5fe,stroke:#01579b,stroke-width:2px;
     classDef protected fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px;
     classDef component fill:#fff3e0,stroke:#ef6c00,stroke-width:2px;
+    classDef api fill:#f3e5f5,stroke:#6a1b9a,stroke-width:2px;
 
-    %% Entry Point
-    Start((App Load)) --> AuthCheck{Is User Logged In?}
+    Start((App load)) --> UserCheck{/api/user}
+    UserCheck -->|authenticated| Session[UserContext ready]
+    UserCheck -->|not authenticated| Guest[Guest state]
 
-    %% Public Routes
-    subgraph Public_Access [Public Access]
-        AuthCheck -- No --> SignIn[Sign In Page]
-        SignIn -- Create Account --> SignUp[Sign Up Page]
-        SignUp -- Account Created --> SignIn
-        SignIn -- Success --> Home
+    Session --> Navbar[Global Navbar]
+    Guest --> Navbar
+
+    subgraph PublicPages [Public pages]
+        Home[HomePage]
+        SignIn[/signin/]
+        SignUp[/signup/]
+        Repair[/RepairServices/]
+        About[/aboutUs/]
+        FAQ[/Faq/]
     end
 
-    %% Protected Routes
-    subgraph Protected_Area [Protected User Area]
-        AuthCheck -- Yes --> Home[Home Page]
-        
-        %% Navigation Component
-        NavBar[Navigation Bar]
-        Home -.-> NavBar
-        NavBar --> Home
-        
-        %% Main Feature Pages
-        NavBar --> Repair[Repair Services]
-        NavBar --> MyBookings[My Bookings]
-        NavBar --> Profile[User Profile]
-        NavBar --> About[About Us]
-        NavBar --> FAQ[FAQ Page]
-
-        %% Interactions
-        Home -- "Find Service" --> Repair
-        Repair -- "Book Service" --> BookingModal[Booking Modal]
-        BookingModal -- "Confirm" --> Payment[Stripe Checkout]
-        Payment -- "Success" --> MyBookings
-        MyBookings -- "Cancel/Delete Booking" --> MyBookings
-        
-        %% Profile Actions
-        Profile -- "Edit Details" --> Profile
-        Profile -- "Log Out" --> SignOut[Sign Out]
-        SignOut --> SignIn
+    subgraph ProtectedPages [Protected pages]
+        Profile[/userProfile/]
+        Bookings[/myBookings/]
     end
 
-    %% Styling Mapping
-    class SignIn,SignUp,FAQ public;
-    class Home,Repair,MyBookings,Profile,About protected;
-    class NavBar,BookingModal,Payment component;
+    Navbar --> Home
+    Navbar --> Repair
+    Navbar --> About
+    Navbar --> FAQ
+    Navbar --> SignIn
+    Navbar --> SignUp
+    Navbar --> Profile
+    Navbar --> Bookings
+
+    Home --> Recommendations[SmartRecommendations]
+    Home --> Assistant[Chatbot]
+    Recommendations --> Repair
+    Assistant --> ServiceModal[Service modal]
+    Repair --> ServicesAPI[/api/services/]
+    Repair --> ServiceModal
+    ServiceModal --> Checkout[Stripe Checkout]
+    Checkout -->|success redirect| Repair
+    Checkout -->|cancel redirect| Repair
+    Repair --> Confirm[Confirm booking]
+    Confirm --> Bookings
+
+    Profile --> Logout[/api/logout/]
+    Profile --> Delete[/api/deleteuser/]
+    Bookings --> Cancel[/api/mybookings/:id/]
+
+    class Home,SignIn,SignUp,Repair,About,FAQ public;
+    class Profile,Bookings protected;
+    class Navbar,Recommendations,Assistant,ServiceModal,Checkout,Confirm component;
+    class UserCheck,ServicesAPI,Logout,Delete,Cancel api;
 ```
 
 ## 📄 Key Page Descriptions
 
 | Page Route | Component | Access | Description |
 | :--- | :--- | :--- | :--- |
-| `/` | `HomePage` | 🔒 Protected | The main dashboard displaying recommendations, popular services, and quick access links. |
-| `/signin` | `SimpleCard` | 🌍 Public | User login interface with Email/Password and Google OAuth support. |
+| `/` | `HomePage` | 🌍 Public | Landing page with the hero section, floating AI assistant, and location-based recommendations. |
+| `/signin` | `SimpleCard` | 🌍 Public | Email/password sign-in entry point that establishes the auth cookie. |
 | `/signup` | `SignupCard` | 🌍 Public | New user registration form. |
-| `/RepairServices` | `RepairServices` | 🔒 Protected | Lists available home services, trending options, and allows users to initiate bookings. |
-| `/myBookings` | `UserBookings` | 🔒 Protected | Displays current and past service bookings with status updates. |
-| `/userProfile` | `UserProfile` | 🔒 Protected | User account details, settings, and address management. |
-| `/aboutUs` | `AboutUs` | 🔒 Protected | Information about the HandyHouse Services platform and team. |
-| `/Faq` | `Faq` | 🌍 Public* | Frequently asked questions and support information. |
+| `/RepairServices` | `RepairServices` | 🌍 Public* | Service catalog page that fetches available services, handles booking starts, and processes Stripe return states. |
+| `/aboutUs` | `AboutUs` | 🌍 Public | Static company and platform information. |
+| `/Faq` | `Faq` | 🌍 Public | Support and common questions page. |
+| `/userProfile` | `UserProfile` | 🔒 Protected | Signed-in user profile, edit, logout, and account deletion actions. |
+| `/myBookings` | `UserBookings` | 🔒 Protected | Authenticated booking history, cancellation, and provider details. |
 
-> *Note: While FAQ is generally public information, the current routing configuration may require login depending on specific implementation details.*
+> *Booking itself is still gated by authentication inside the page flow. If a signed-out user tries to book, they are redirected to `/signin`.
+
+## 🔄 User Journey
+
+1. The user lands on `/` and can explore the hero section, chatbot, and recommended services.
+2. The user can browse `/RepairServices` directly or arrive there from recommendations or chatbot suggestions.
+3. Selecting a service opens `serviceproviderModal`, collects booking details, and launches Stripe Checkout through `CheckOutButton`.
+4. Stripe returns the user to `/RepairServices` with a payment result query string.
+5. The page confirms the booking through `/api/payments/confirm-booking`, then the booking appears in `/myBookings`.
+6. The user can update profile details on `/userProfile`, review bookings on `/myBookings`, or log out.
+
+## 🔌 Backend Endpoints Used By The UI
+
+| Endpoint | Purpose |
+| :--- | :--- |
+| `/api/user` | Loads the signed-in user into `UserContext`. |
+| `/api/signin` | Authenticates a user and sets the session cookie. |
+| `/api/signup` | Creates a new account. |
+| `/api/logout` | Clears the auth cookie. |
+| `/api/services` | Returns the service catalog shown on Repair Services. |
+| `/api/chatbot` | Generates AI-based service recommendations. |
+| `/api/location-analytics` | Powers neighborhood-aware service recommendations. |
+| `/api/payments/createCheckoutSession` | Starts Stripe checkout for a booking. |
+| `/api/payments/confirm-booking` | Finalizes a successful booking after payment. |
+| `/api/mybookings` | Returns the current user’s booking history. |
+| `/api/mybookings/:id` | Cancels a booking. |
+| `/api/deleteuser` | Deletes the active account. |
